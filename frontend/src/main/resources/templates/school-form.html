@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layouts/fixed-sidebar}">
+<head>
+  <title layout:fragment="header-title" th:text="${#lists.isEmpty(school.id) ? 'Add School' : 'Edit School'}"></title>
+</head>
+<body>
+<section layout:fragment="body-content-breadcrumb">
+  <ol class="breadcrumb float-sm-end">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active" th:text="${#lists.isEmpty(school.id) ? 'Add School' : 'Edit School'}">School Form</li>
+  </ol>
+</section>
+
+<section layout:fragment="body-title">
+  <h1 th:text="${#lists.isEmpty(school.id) ? 'Add New School' : 'Edit School'}"></h1>
+</section>
+
+<section class="content" layout:fragment="body-content-main">
+  <!-- Create Form (when school.id is null) -->
+  <form th:if="${school.id} == null" th:action="@{/schools}" th:object="${school}" method="post">
+    <div class="form-group">
+      <label for="name">School Name</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter school name" required/>
+    </div>
+    <div class="form-group">
+      <label for="email">School Email</label>
+      <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Enter school email" required/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Create</button>
+  </form>
+
+  <!-- Update Form (when school.id is not null) -->
+  <form th:if="${school.id} != null" th:action="@{/schools/update/{id}(id=${school.id})}" th:object="${school}" method="post">
+    <div class="form-group">
+      <label for="name">School Name</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter school name" required/>
+    </div>
+    <div class="form-group">
+      <label for="email">School Email</label>
+      <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Enter school email" required/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Update</button>
+  </form>
+  <a class="btn btn-secondary mt-3" th:href="@{/schools}">Back to List</a>
+</section>
+
+<section layout:fragment="body_scripts" th:remove="tag">
+</section>
+</body>
+</html>

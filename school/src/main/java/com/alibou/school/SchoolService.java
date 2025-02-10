@@ -55,11 +55,40 @@ public class SchoolService {
         var cr = classroomRepository.findById(classroomId).orElse(Classroom.builder().name("NOT FOUND").schoolId(0).build());
         var t = teacherClient.findTeacherByClassroomId(cr.getId());
         var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-        return ClassroomDTO.builder().name(cr.getName()).assignedTeacher(t).students(s).build();
+        var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+        return ClassroomDTO.builder().id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).assignedTeacher(t).students(s).build();
     }
 
 
     public void saveClassroom(Classroom classroom) {
         classroomRepository.save(classroom);
+    }
+
+    public void deleteSchool(Integer schoolId) {
+        classroomRepository.deleteAllBySchoolId(schoolId);
+        schoolRepository.deleteById(schoolId);
+    }
+
+    public void updateSchool(Integer schoolId, School school) {
+        if(schoolRepository.existsById(schoolId)){
+            school.setId(schoolId);
+            school.setName(school.getName());
+            school.setEmail(school.getEmail());
+            schoolRepository.save(school);
+        }
+    }
+
+    public School getSchoolById(Integer schoolId) {
+        return schoolRepository.findById(schoolId).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+    }
+
+    public List<ClassroomDTO> findAllClassrooms() {
+        var classrooms = classroomRepository.findAll();
+        return classrooms.stream().map(cr -> {
+            var t = teacherClient.findTeacherByClassroomId(cr.getId());
+            var s = studentClient.findAllStudentsByClassroomId(cr.getId());
+            var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+            return ClassroomDTO.builder().id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).assignedTeacher(t).students(s).build();
+        }).toList();
     }
 }

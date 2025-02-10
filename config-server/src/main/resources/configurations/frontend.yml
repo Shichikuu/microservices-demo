@@ -1,0 +1,22 @@
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    disable-delta: true
+
+server:
+  port: 8120
+spring:
+  application:
+    name: frontend
+  thymeleaf:
+    cache: false
+
+application:
+  config:
+    students-url: http://localhost:8222/api/v1/student
+    teachers-url: http://localhost:8222/api/v1/teacher
+    courses-url: http://localhost:8222/api/v1/course
+    schools-url: http://localhost:8222/api/v1/schools

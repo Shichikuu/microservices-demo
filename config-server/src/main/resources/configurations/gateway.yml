@@ -41,6 +41,10 @@ spring:
           uri: http://localhost:8110
           predicates:
             - Path=/api/v1/teacher/**
+        - id: frontend
+          uri: http://localhost:8120
+          predicates:
+            - Path=/**
 
 eureka:
   client:

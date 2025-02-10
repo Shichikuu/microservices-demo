@@ -12,7 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ClassroomDTO {
+    private Integer id;
     private String name;
+    private String schoolName;
     private List<Student> students;
     private Teacher assignedTeacher;
 }

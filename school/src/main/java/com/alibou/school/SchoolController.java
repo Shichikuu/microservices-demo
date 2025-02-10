@@ -37,9 +37,14 @@ public class SchoolController {
         return ResponseEntity.ok(service.findAllSchools());
     }
 
-    @GetMapping("/schoolId={school-id}")
-    public ResponseEntity<FullSchoolResponse> findSchoolById(@PathVariable("school-id") Integer schoolId) {
+    @GetMapping("/full/schoolId={school-id}")
+    public ResponseEntity<FullSchoolResponse> findFullSchoolById(@PathVariable("school-id") Integer schoolId) {
         return ResponseEntity.ok(service.findSchoolById(schoolId));
+    }
+
+    @GetMapping("/schoolId={school-id}")
+    public ResponseEntity<School> findSchoolById(@PathVariable("school-id") Integer schoolId) {
+        return ResponseEntity.ok(service.getSchoolById(schoolId));
     }
 
     @GetMapping("/schoolId={school-id}/students")
@@ -57,5 +62,19 @@ public class SchoolController {
         return ResponseEntity.ok(service.findClassroomById(classroomId));
     }
 
+    @GetMapping("/classrooms")
+    public ResponseEntity<List<ClassroomDTO>> findAllClassrooms() {
+        return ResponseEntity.ok(service.findAllClassrooms());
+    }
+
+    @DeleteMapping("/delete/schoolId={school-id}")
+    public void deleteSchool(@PathVariable("school-id") Integer schoolId) {
+        service.deleteSchool(schoolId);
+    }
+
+    @PutMapping("/update/schoolId={school-id}")
+    public void updateSchool(@PathVariable("school-id") Integer schoolId, @RequestBody School school) {
+        service.updateSchool(schoolId, school);
+    }
 
 }

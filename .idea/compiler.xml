@@ -11,7 +11,7 @@
         <module name="gateway" />
         <module name="discovery" />
       </profile>
-      <profile name="Annotation profile for teacher" enabled="true">
+      <profile name="Annotation profile for frontend" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -22,6 +22,7 @@
         <module name="teacher" />
         <module name="school" />
         <module name="student" />
+        <module name="frontend" />
       </profile>
     </annotationProcessing>
   </component>
@@ -30,6 +31,7 @@
       <module name="config-server" options="-parameters" />
       <module name="course" options="-parameters" />
       <module name="discovery" options="-parameters" />
+      <module name="frontend" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="school" options="-parameters" />
       <module name="student" options="-parameters" />

@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/school/pom.xml" />
         <option value="$PROJECT_DIR$/teacher/pom.xml" />
         <option value="$PROJECT_DIR$/course/pom.xml" />
+        <option value="$PROJECT_DIR$/frontend/pom.xml" />
       </list>
     </option>
   </component>
