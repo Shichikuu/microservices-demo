@@ -8,24 +8,39 @@ spring:
       discovery:
         locator:
           enabled: true
-      mvc:
-        routes:
-          - id: fallback
-            uri: http://localhost:8090
-            predicates:
-              - Path=/**
-          - id: student-root
-            uri: http://localhost:8090
-            predicates:
-              - Path=/api/v1/student, /api/v1/student/
-          - id: students
-            uri: http://localhost:8090
-            predicates:
-              - Path=/api/v1/student/**
-          - id: schools
-            uri: http://localhost:8070
-            predicates:
-              - Path=/api/v1/schools/**
+      routes:
+        - id: student-root
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/student, /api/v1/student/
+        - id: students
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/student/**
+        - id: school-root
+          uri: http://localhost:8070
+          predicates:
+            - Path=/api/v1/schools, /api/v1/schools/
+        - id: schools
+          uri: http://localhost:8070
+          predicates:
+            - Path=/api/v1/schools/**
+        - id: course-root
+          uri: http://localhost:8100
+          predicates:
+            - Path=/api/v1/course, /api/v1/course/
+        - id: courses
+          uri: http://localhost:8100
+          predicates:
+            - Path=/api/v1/course/**
+        - id: teacher-root
+          uri: http://localhost:8110
+          predicates:
+            - Path=/api/v1/teacher, /api/v1/teacher/
+        - id: teachers
+          uri: http://localhost:8110
+          predicates:
+            - Path=/api/v1/teacher/**
 
 eureka:
   client:

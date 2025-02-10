@@ -1,4 +1,4 @@
-package com.alibou.student;
+package com.alibou.school.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +12,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Student {
+public class School {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String firstname;
-    private String lastname;
+    private String name;
     private String email;
-    private Integer schoolId;
 }

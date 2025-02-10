@@ -1,6 +1,8 @@
-package com.alibou.school;
+package com.alibou.school.dto;
 
-import com.alibou.student.Student;
+import com.alibou.school.model.Classroom;
+import com.alibou.school.model.Event;
+import com.alibou.student.model.Student;
 import lombok.*;
 
 import java.util.List;
@@ -16,4 +18,6 @@ public class FullSchoolResponse {
     private String email;
 
     List<Student> students;
+    List<Classroom> classrooms;
+    List<Event> events;
 }
