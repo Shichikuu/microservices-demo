@@ -34,7 +34,7 @@
       <td th:text="${classroom.id}"></td>
       <td th:text="${classroom.schoolName}"></td>
       <td th:text="${classroom.name}"></td>
-      <td th:text="${classroom.assignedTeacher}"></td>
+      <td th:text="${classroom.assignedTeacher.name}"></td>
       <td>
         <a class="btn btn-primary btn-sm" th:href="@{/classrooms/edit/{id}(id=${classroom.id})}">Edit</a>
         <a class="btn btn-danger btn-sm" th:href="@{/classrooms/delete/{id}(id=${classroom.id})}"

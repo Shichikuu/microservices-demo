@@ -2,6 +2,7 @@ package com.alibou.school;
 
 import com.alibou.common.dto.ClassroomDTO;
 import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Classroom;
 import com.alibou.common.model.School;
 import com.alibou.common.model.Student;
@@ -75,6 +76,25 @@ public class SchoolController {
     @PutMapping("/update/schoolId={school-id}")
     public void updateSchool(@PathVariable("school-id") Integer schoolId, @RequestBody School school) {
         service.updateSchool(schoolId, school);
+    }
+
+    @PostMapping("/assign/{teacher-id}/to/{classroom-id}")
+    public void assignTeacherToClassroom(@PathVariable("teacher-id") Integer teacherId, @PathVariable("classroom-id") Integer classroomId) {
+        try{
+            service.assignTeacherToClassroom(teacherId, classroomId);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
+
+    @DeleteMapping("/delete/classroom/{classroom-id}")
+    public void deleteClassroom(@PathVariable("classroom-id") Integer classroomId) {
+        service.deleteClassroom(classroomId);
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<List<StudentFullResponse>> getAllStudentFullResponse() {
+        return ResponseEntity.ok(service.getAllStudentFullResponse());
     }
 
 }

@@ -1,14 +1,19 @@
 package com.alibou.frontend.client;
 
+import com.alibou.common.config.CustomFeignErrorDecoder;
+import com.alibou.common.config.FeignConfig;
 import com.alibou.common.dto.ClassroomDTO;
 import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.dto.StudentFullResponse;
+import com.alibou.common.model.Classroom;
 import com.alibou.common.model.School;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "school-service", url = "${application.config.schools-url}")
+@FeignClient(name = "school-service", url = "${application.config.schools-url}", configuration = {FeignConfig.class})
 public interface SchoolClient {
     @GetMapping
     public List<School> findAllSchools();
@@ -34,4 +39,15 @@ public interface SchoolClient {
     @GetMapping("/full/schoolId={school-id}")
     public FullSchoolResponse findFullSchoolById(@PathVariable("school-id") Integer schoolId);
 
+    @PostMapping("/create-classroom")
+    public void saveClassroom(@RequestBody Classroom classroom);
+
+    @DeleteMapping("/delete/classroom/{classroom-id}")
+    public void deleteClassroom(@PathVariable("classroom-id") Integer classroomId);
+
+    @PostMapping("/assign/{teacher-id}/to/{classroom-id}")
+    void assignTeacherToClassroom(@PathVariable("teacher-id") Integer teacherId, @PathVariable("classroom-id") Integer classroomId);
+
+    @GetMapping("/students")
+    public List<StudentFullResponse> getAllFullStudentResponse();
 }

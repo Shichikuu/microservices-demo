@@ -14,9 +14,9 @@ public interface TeacherClient {
     @GetMapping("/schoolId={school-id}/teachers")
     List<Teacher> findAllTeachersBySchool(@PathVariable("school-id") Integer schoolId);
 
-    @GetMapping("/classroomId={classroom-id}")
-    Teacher findTeacherByClassroomId(@PathVariable("classroom-id") Integer classroomId);
+    @GetMapping("/{teacher-id}")
+    Teacher findTeacherById(@PathVariable("teacher-id") Integer teacherId);
 
-    @PutMapping("/assign/{teacher-id}/to/{classroom-id}")
-    void assignTeacherToClassroom(@PathVariable("teacher-id") Integer teacherId, @PathVariable("classroom-id") Integer classroomId);
+    @PostMapping("/removeAll/schoolId={school-id}")
+    void removeAllTeachersBySchool(@PathVariable("school-id") Integer schoolId);
 }

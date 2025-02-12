@@ -8,7 +8,6 @@
 <body>
 <section layout:fragment="body-content-breadcrumb">
   <ol class="breadcrumb float-sm-end">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" th:text="${#lists.isEmpty(school.id) ? 'Add School' : 'Edit School'}">School Form</li>
   </ol>
 </section>

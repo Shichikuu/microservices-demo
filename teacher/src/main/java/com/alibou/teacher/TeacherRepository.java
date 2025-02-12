@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
     public List<Teacher> findAllBySchoolId(Integer schoolId);
-    public Teacher findByClassroomId(Integer classroomId);
 }

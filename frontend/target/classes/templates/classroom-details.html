@@ -20,18 +20,18 @@
 <section class="content" layout:fragment="body-content-main">
 
     <div class="container mb-5">
-        <form th:action="@{/teachers/assign}" th:object="${classroom}" method="post">
+        <form th:action="@{/classrooms/assign-teacher}" th:object="${classroom}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <div class="mb-3">
                 <label for="teacherSelect" class="form-label">Assign a Teacher to the Class</label>
                 <select id="teacherSelect" class="form-select" th:field="*{assignedTeacher.id}">
+
                     <!-- Show a default option if no teacher is assigned -->
-                    <option value="" th:if="${classroom.assignedTeacher == null}" selected>-- Select a teacher --</option>
+                    <option value="">-- Select a teacher --</option>
                     <!-- Loop over the teacher list -->
                     <option th:each="teacher : ${teachers}"
                             th:value="${teacher.id}"
-                            th:text="${teacher.name}"
-                            th:selected="${teacher.id == classroom.assignedTeacher.id}">
+                            th:text="${teacher.name}">
                     </option>
                 </select>
                 <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
@@ -69,7 +69,7 @@
 
 
 
-    <a class="btn btn-secondary mt-3" th:href="@{/schools}">Back to List</a>
+    <a class="btn btn-secondary mt-3" th:href="@{/view/{id}(id=${classroom.schoolId})}">Back to List</a>
 
 </section>
 

@@ -31,17 +31,13 @@ public class TeacherController {
         return ResponseEntity.ok(service.findAllTeachersBySchoolId(schoolId));
     }
 
-    @GetMapping("/classroomId={classroom-id}")
-    public ResponseEntity<Teacher> findTeacherByClassroomId(@PathVariable("classroom-id") Integer classroomId) {
-        return ResponseEntity.ok(service.findTeacherByClassroomId(classroomId));
+    @GetMapping("/{teacher-id}")
+    public ResponseEntity<Teacher> findTeacherById(@PathVariable("teacher-id") Integer teacherId) {
+        return ResponseEntity.ok(service.findTeacherById(teacherId));
     }
 
-    @PostMapping("/assign/{teacher-id}/to/{classroom-id}")
-    public void assignTeacherToClassroom(@PathVariable("teacher-id") Integer teacherId, @PathVariable("classroom-id") Integer classroomId) {
-        try{
-            service.assignTeacherToClassroom(teacherId, classroomId);
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
+    @PostMapping("/removeAll/schoolId={school-id}")
+    void removeAllTeachersBySchool(@PathVariable("school-id") Integer schoolId){
+        service.removeAllTeachersBySchool(schoolId);
     }
 }

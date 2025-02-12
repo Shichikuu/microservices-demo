@@ -18,8 +18,6 @@ public class TeacherService {
         return client.findAllTeachersBySchool(schoolId);
     }
 
-    public void assignTeacherToClassroom(Integer teacherId, Integer classroomId) {
-        client.assignTeacherToClassroom(teacherId, classroomId);
-    }
+
 
 }

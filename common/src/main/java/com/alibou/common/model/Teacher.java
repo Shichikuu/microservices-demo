@@ -16,9 +16,7 @@ public class Teacher {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer schoolId;
-    private Integer classroomId;
-    private Integer courseId;
     private String name;
     private String email;
+    private Integer schoolId;
 }

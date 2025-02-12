@@ -13,8 +13,9 @@ import lombok.*;
 @Builder
 public class Classroom {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "increment")
     private Integer id;
     private String name;
     private Integer schoolId;
+    private Integer teacherId;
 }

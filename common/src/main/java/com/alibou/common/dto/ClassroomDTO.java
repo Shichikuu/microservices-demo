@@ -15,6 +15,8 @@ public class ClassroomDTO {
     private Integer id;
     private String name;
     private String schoolName;
+    private Integer schoolId;
+    private Integer teacherId;
     private List<Student> students;
     private Teacher assignedTeacher;
 }

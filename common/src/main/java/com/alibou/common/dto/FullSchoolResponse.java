@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 public class FullSchoolResponse {
 
+    private Integer id;
     private String name;
     private String email;
 

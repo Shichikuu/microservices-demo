@@ -19,21 +19,5 @@ public class TeacherController {
 
     private final TeacherService teacherService;
 
-    @PostMapping("/assign")
-    public String assignTeacherToClassroom(@ModelAttribute("classroom") ClassroomDTO classroom, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        Teacher teacher = classroom.getAssignedTeacher();
-        if(bindingResult.hasErrors()) {
-            return "redirect:/classrooms/view/" + classroom.getId();
-        }
 
-        try {
-            teacherService.assignTeacherToClassroom(teacher.getId(), classroom.getId());
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            System.out.println(e.getMessage());
-            return "redirect:/classrooms/view/" + classroom.getId();
-        }
-        redirectAttributes.addFlashAttribute("success", "Teacher assigned successfully!");
-        return "redirect:/classrooms/view/" + classroom.getId();
-    }
 }

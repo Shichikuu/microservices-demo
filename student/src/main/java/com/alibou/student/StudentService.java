@@ -1,6 +1,8 @@
 package com.alibou.student;
 
+import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Course;
+import com.alibou.common.model.School;
 import com.alibou.student.client.CourseClient;
 import com.alibou.common.dto.CourseScoreResponse;
 import com.alibou.common.dto.StudentReportDTO;
@@ -30,20 +32,25 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public Student findStudentById(Integer studentId) {
+        return studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("Student not found"));
+    }
+
 
     public List<Student> findAllStudentsBySchool(Integer schoolId) {
         return studentRepository.findAllBySchoolId(schoolId);
     }
 
     public CourseScoreResponse findCourseScore(Integer courseId, Integer studentId) {
+
         CourseScore cs = courseScoreRepository.findByCourseIdAndStudentId(courseId, studentId);
         Course c = courseClient.findCourseById(courseId);
-        Student s = studentRepository.findById(studentId).orElse(Student.builder().name("NOT FOUND").build());
+        Student s = findStudentById(studentId);
         return CourseScoreResponse.builder().course(c).student(s).score(cs.getScore()).build();
     }
 
     public StudentReportDTO findStudentReport(Integer studentId) {
-        Student s = studentRepository.findById(studentId).orElse(Student.builder().name("NOT FOUND").build());
+        Student s = findStudentById(studentId);
         List<CourseScore> cs = courseScoreRepository.findByStudentId(studentId);
         List<CourseScoreResponse> csr = new ArrayList<>();
         for (CourseScore i : cs) {
@@ -64,4 +71,44 @@ public class StudentService {
     public void saveCourseScore(CourseScore courseScore) {
         courseScoreRepository.save(courseScore);
     }
+
+    public void insertStudentToClassroom(Integer classroomId, Integer studentId) {
+        Student student = findStudentById(studentId);
+        student.setClassroomId(classroomId);
+        studentRepository.save(student);
+    }
+
+    public void removeStudentFromClassroom(Integer classroomId, Integer studentId) {
+        Student student = findStudentById(studentId);
+        if (student.getClassroomId() == null || !student.getClassroomId().equals(classroomId)) {
+            throw new IllegalArgumentException("Student not in this classroom");
+        }
+        student.setClassroomId(null);
+        studentRepository.save(student);
+    }
+
+
+    public void insertStudentToSchool(Integer schoolId, Integer studentId) {
+        Student student = findStudentById(studentId);
+        student.setSchoolId(schoolId);
+        studentRepository.save(student);
+    }
+
+    public void removeStudentFromSchool(Integer schoolId, Integer studentId) {
+        Student student = findStudentById(studentId);
+        if (student.getSchoolId() == null || !student.getSchoolId().equals(schoolId)) {
+            throw new IllegalArgumentException("Student not in this school");
+        }
+        student.setSchoolId(null);
+        studentRepository.save(student);
+    }
+
+    public void removeAllStudentsBySchool(Integer schoolId) {
+        List<Student> students = studentRepository.findAllBySchoolId(schoolId);
+        for (Student student : students) {
+            student.setSchoolId(null);
+            studentRepository.save(student);
+        }
+    }
+
 }

@@ -25,3 +25,4 @@ application:
   config:
     students-url: http://localhost:8222/api/v1/student
     teachers-url: http://localhost:8222/api/v1/teacher
+    courses-url: http://localhost:8222/api/v1/course

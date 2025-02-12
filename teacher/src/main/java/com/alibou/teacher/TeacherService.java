@@ -24,17 +24,15 @@ public class TeacherService {
         return teacherRepository.findAllBySchoolId(schoolId);
     }
 
-    public Teacher findTeacherByClassroomId(Integer classroomId) {
-        return teacherRepository.findByClassroomId(classroomId);
+    public Teacher findTeacherById(Integer teacherId) {
+        return teacherRepository.findById(teacherId).orElse(null);
     }
 
-    public void assignTeacherToClassroom(Integer teacherId, Integer classroomId) {
-        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new IllegalArgumentException("Teacher not found"));
-        if(teacher.getClassroomId() != null) {
-            throw new IllegalArgumentException("Teacher already assigned to a classroom");
+    public void removeAllTeachersBySchool(Integer schoolId) {
+        List<Teacher> teachers = teacherRepository.findAllBySchoolId(schoolId);
+        for(Teacher teacher: teachers){
+            teacher.setSchoolId(null);
+            teacherRepository.save(teacher);
         }
-        teacher.setClassroomId(classroomId);
-        teacherRepository.save(teacher);
     }
-
 }

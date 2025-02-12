@@ -1,5 +1,7 @@
 package com.alibou.frontend.client;
 
+import com.alibou.common.config.CustomFeignErrorDecoder;
+import com.alibou.common.config.FeignConfig;
 import com.alibou.common.model.Student;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "student-service", url = "${application.config.students-url}")
+@FeignClient(name = "student-service", url = "${application.config.students-url}", configuration = {FeignConfig.class})
 public interface StudentClient {
 
     @GetMapping("/schoolId={school-id}/students")

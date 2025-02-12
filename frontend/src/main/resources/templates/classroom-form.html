@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layouts/fixed-sidebar}">
+<head>
+  <title layout:fragment="header-title" th:text="${#lists.isEmpty(classroom.id) ? 'Add Classrooms' : 'Edit Classroom'}"></title>
+</head>
+<body>
+<section layout:fragment="body-content-breadcrumb">
+  <ol class="breadcrumb float-sm-end">
+    <li class="breadcrumb-item active" th:text="${#lists.isEmpty(classroom.id) ? 'Add Classroom' : 'Edit Classroom'}">Classroom Form</li>
+  </ol>
+</section>
+
+<section layout:fragment="body-title">
+  <h1 th:text="${#lists.isEmpty(classroom.id) ? 'Add New Classroom' : 'Edit Classroom'}"></h1>
+</section>
+
+<section class="content" layout:fragment="body-content-main">
+  <!-- Create Form (when school.id is null) -->
+  <form th:if="${classroom.id} == null" th:action="@{/classrooms}" th:object="${classroom}" method="post">
+    <input type="hidden" th:field="*{schoolId}"/>
+    <div class="form-group">
+      <label for="name">Classroom Name</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter classroom name" required/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Create</button>
+  </form>
+  <a class="btn btn-secondary mt-3" th:href="@{/view/{id}(id=${classroom.schoolId})}">Back to List</a>
+</section>
+
+<section layout:fragment="body_scripts" th:remove="tag">
+</section>
+</body>
+</html>

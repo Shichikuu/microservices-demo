@@ -34,4 +34,6 @@ public class SchoolService {
     }
 
     public FullSchoolResponse getFullSchoolResponseById(Integer id){ return schoolClient.findFullSchoolById(id); }
+
+
 }
