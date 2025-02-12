@@ -1,6 +1,6 @@
 package com.alibou.student.repository;
 
-import com.alibou.student.model.CourseScore;
+import com.alibou.common.model.CourseScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

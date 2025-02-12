@@ -1,5 +1,6 @@
 package com.alibou.teacher;
 
+import com.alibou.common.model.Teacher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,14 @@ public class TeacherController {
     @GetMapping("/classroomId={classroom-id}")
     public ResponseEntity<Teacher> findTeacherByClassroomId(@PathVariable("classroom-id") Integer classroomId) {
         return ResponseEntity.ok(service.findTeacherByClassroomId(classroomId));
+    }
+
+    @PostMapping("/assign/{teacher-id}/to/{classroom-id}")
+    public void assignTeacherToClassroom(@PathVariable("teacher-id") Integer teacherId, @PathVariable("classroom-id") Integer classroomId) {
+        try{
+            service.assignTeacherToClassroom(teacherId, classroomId);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
     }
 }

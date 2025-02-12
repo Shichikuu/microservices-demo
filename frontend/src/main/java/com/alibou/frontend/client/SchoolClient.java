@@ -1,7 +1,8 @@
 package com.alibou.frontend.client;
 
-import com.alibou.school.dto.ClassroomDTO;
-import com.alibou.school.model.School;
+import com.alibou.common.dto.ClassroomDTO;
+import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.model.School;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,4 +27,11 @@ public interface SchoolClient {
 
     @GetMapping("/classrooms")
     public List<ClassroomDTO> findAllClassrooms();
+
+    @GetMapping("/classroomId={id}")
+    public ClassroomDTO getClassroomById(@PathVariable("id") Integer id);
+
+    @GetMapping("/full/schoolId={school-id}")
+    public FullSchoolResponse findFullSchoolById(@PathVariable("school-id") Integer schoolId);
+
 }

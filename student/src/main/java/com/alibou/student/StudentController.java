@@ -1,9 +1,9 @@
 package com.alibou.student;
 
-import com.alibou.student.dto.CourseScoreResponse;
-import com.alibou.student.dto.StudentReportDTO;
-import com.alibou.student.model.CourseScore;
-import com.alibou.student.model.Student;
+import com.alibou.common.dto.CourseScoreResponse;
+import com.alibou.common.dto.StudentReportDTO;
+import com.alibou.common.model.CourseScore;
+import com.alibou.common.model.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

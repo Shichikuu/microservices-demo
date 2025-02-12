@@ -1,5 +1,6 @@
 package com.alibou.teacher;
 
+import com.alibou.common.model.Teacher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,15 @@ public class TeacherService {
 
     public Teacher findTeacherByClassroomId(Integer classroomId) {
         return teacherRepository.findByClassroomId(classroomId);
+    }
+
+    public void assignTeacherToClassroom(Integer teacherId, Integer classroomId) {
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new IllegalArgumentException("Teacher not found"));
+        if(teacher.getClassroomId() != null) {
+            throw new IllegalArgumentException("Teacher already assigned to a classroom");
+        }
+        teacher.setClassroomId(classroomId);
+        teacherRepository.save(teacher);
     }
 
 }

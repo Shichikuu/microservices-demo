@@ -12,7 +12,7 @@ spring:
     name: teachers
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/teachers
+    url: jdbc:postgresql://localhost:5432/schools
     username: postgres
     password: password
   jpa:

@@ -1,7 +1,8 @@
 package com.alibou.frontend.controller;
 
 import com.alibou.frontend.service.SchoolService;
-import com.alibou.school.model.School;
+import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.model.School;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,5 +55,12 @@ public class SchoolController {
     public String deleteSchool(@PathVariable("id") Integer id) {
         service.deleteSchool(id);
         return "redirect:/schools";
+    }
+
+    @GetMapping("/view/{id}")
+    public String viewSchoolDetails(@PathVariable("id") Integer id, Model model){
+        FullSchoolResponse school = service.getFullSchoolResponseById(id);
+        model.addAttribute("school", school);
+        return "school-details";
     }
 }

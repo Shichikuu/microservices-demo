@@ -1,7 +1,8 @@
 package com.alibou.frontend.service;
 
 import com.alibou.frontend.client.SchoolClient;
-import com.alibou.school.model.School;
+import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.model.School;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +32,6 @@ public class SchoolService {
     public void deleteSchool(Integer id) {
         schoolClient.deleteSchool(id);
     }
+
+    public FullSchoolResponse getFullSchoolResponseById(Integer id){ return schoolClient.findFullSchoolById(id); }
 }

@@ -1,5 +1,6 @@
 package com.alibou.teacher;
 
+import com.alibou.common.model.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

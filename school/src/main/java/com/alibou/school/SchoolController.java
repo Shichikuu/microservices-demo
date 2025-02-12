@@ -1,11 +1,11 @@
 package com.alibou.school;
 
-import com.alibou.school.dto.ClassroomDTO;
-import com.alibou.school.dto.FullSchoolResponse;
-import com.alibou.school.model.Classroom;
-import com.alibou.school.model.School;
-import com.alibou.student.model.Student;
-import com.alibou.teacher.Teacher;
+import com.alibou.common.dto.ClassroomDTO;
+import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.model.Classroom;
+import com.alibou.common.model.School;
+import com.alibou.common.model.Student;
+import com.alibou.common.model.Teacher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

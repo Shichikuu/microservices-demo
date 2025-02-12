@@ -11,7 +11,7 @@
         <module name="gateway" />
         <module name="discovery" />
       </profile>
-      <profile name="Annotation profile for frontend" enabled="true">
+      <profile name="Annotation profile for teacher" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -20,14 +20,16 @@
         </processorPath>
         <module name="course" />
         <module name="teacher" />
-        <module name="school" />
+        <module name="common" />
         <module name="student" />
+        <module name="school" />
         <module name="frontend" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="course" options="-parameters" />
       <module name="discovery" options="-parameters" />

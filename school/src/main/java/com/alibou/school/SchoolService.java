@@ -2,15 +2,15 @@ package com.alibou.school;
 
 import com.alibou.school.client.StudentClient;
 import com.alibou.school.client.TeacherClient;
-import com.alibou.school.dto.ClassroomDTO;
-import com.alibou.school.dto.FullSchoolResponse;
-import com.alibou.school.model.Classroom;
-import com.alibou.school.model.School;
+import com.alibou.common.dto.ClassroomDTO;
+import com.alibou.common.dto.FullSchoolResponse;
+import com.alibou.common.model.Classroom;
+import com.alibou.common.model.School;
 import com.alibou.school.repository.ClassroomRepository;
 import com.alibou.school.repository.EventRepository;
 import com.alibou.school.repository.SchoolRepository;
-import com.alibou.student.model.Student;
-import com.alibou.teacher.Teacher;
+import com.alibou.common.model.Student;
+import com.alibou.common.model.Teacher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +38,10 @@ public class SchoolService {
     public FullSchoolResponse findSchoolById(Integer schoolId) {
         var school = schoolRepository.findById(schoolId).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
         var students = studentClient.findAllStudentsBySchool(schoolId);
-        var classrooms = classroomRepository.findAllBySchoolId(schoolId);
+        var classrooms = findAllFullClassroomsBySchoolId(schoolId);
         var events = eventRepository.findAllBySchoolId(schoolId);
-        return FullSchoolResponse.builder().name(school.getName()).email(school.getEmail()).students(students).classrooms(classrooms).events(events).build();
+        var teachers = teacherClient.findAllTeachersBySchool(schoolId);
+        return FullSchoolResponse.builder().name(school.getName()).teachers(teachers).email(school.getEmail()).students(students).classrooms(classrooms).events(events).build();
     }
 
     public List<Student> findAllStudentsBySchool(Integer schoolId) {
@@ -91,4 +92,15 @@ public class SchoolService {
             return ClassroomDTO.builder().id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).assignedTeacher(t).students(s).build();
         }).toList();
     }
+
+    public List<ClassroomDTO> findAllFullClassroomsBySchoolId(Integer schoolId) {
+        var classrooms = classroomRepository.findAllBySchoolId(schoolId);
+        return classrooms.stream().map(cr -> {
+            var t = teacherClient.findTeacherByClassroomId(cr.getId());
+            var s = studentClient.findAllStudentsByClassroomId(cr.getId());
+            var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+            return ClassroomDTO.builder().id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).assignedTeacher(t).students(s).build();
+        }).toList();
+    }
+
 }

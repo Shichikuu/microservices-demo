@@ -1,9 +1,11 @@
 package com.alibou.school.client;
 
-import com.alibou.teacher.Teacher;
+import com.alibou.common.model.Teacher;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -14,4 +16,7 @@ public interface TeacherClient {
 
     @GetMapping("/classroomId={classroom-id}")
     Teacher findTeacherByClassroomId(@PathVariable("classroom-id") Integer classroomId);
+
+    @PutMapping("/assign/{teacher-id}/to/{classroom-id}")
+    void assignTeacherToClassroom(@PathVariable("teacher-id") Integer teacherId, @PathVariable("classroom-id") Integer classroomId);
 }

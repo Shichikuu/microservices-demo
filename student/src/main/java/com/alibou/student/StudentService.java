@@ -1,11 +1,11 @@
 package com.alibou.student;
 
-import com.alibou.course.model.Course;
+import com.alibou.common.model.Course;
 import com.alibou.student.client.CourseClient;
-import com.alibou.student.dto.CourseScoreResponse;
-import com.alibou.student.dto.StudentReportDTO;
-import com.alibou.student.model.CourseScore;
-import com.alibou.student.model.Student;
+import com.alibou.common.dto.CourseScoreResponse;
+import com.alibou.common.dto.StudentReportDTO;
+import com.alibou.common.model.CourseScore;
+import com.alibou.common.model.Student;
 import com.alibou.student.repository.CourseScoreRepository;
 import com.alibou.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.alibou.course;
 
-import com.alibou.course.model.Course;
+import com.alibou.common.model.Course;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

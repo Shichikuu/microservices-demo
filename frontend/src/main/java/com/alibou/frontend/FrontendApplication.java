@@ -2,6 +2,7 @@ package com.alibou.frontend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -11,6 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 		DataSourceAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class
 })
+@EntityScan(basePackages = "com.alibou.common.model")
 public class FrontendApplication {
 
 	public static void main(String[] args) {

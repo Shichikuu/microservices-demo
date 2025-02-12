@@ -1,6 +1,6 @@
 package com.alibou.course;
 
-import com.alibou.course.model.Course;
+import com.alibou.common.model.Course;
 import com.alibou.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

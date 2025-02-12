@@ -1,6 +1,6 @@
 package com.alibou.frontend.client;
 
-import com.alibou.course.model.Course;
+import com.alibou.common.model.Course;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
