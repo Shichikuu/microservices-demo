@@ -2,18 +2,11 @@ package com.alibou.common.config;
 
 
 
-import com.alibou.common.model.ExceptionMessage;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 public class CustomFeignErrorDecoder implements ErrorDecoder {
@@ -31,6 +24,14 @@ public class CustomFeignErrorDecoder implements ErrorDecoder {
             // throw a custom exception (or even a plain IllegalArgumentException)
             if (methodKey.contains("assignTeacherToClassroom")) {
                 return new IllegalArgumentException("Teacher already assigned to a classroom");
+            }
+
+            if (methodKey.contains("insertStudentToClassroom")) {
+                return new IllegalArgumentException("Student already in this classroom");
+            }
+
+            if (methodKey.contains("insertStudentToSchool")) {
+                return new IllegalArgumentException("Student already in this school");
             }
 
         } catch (IOException e) {

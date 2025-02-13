@@ -1,7 +1,9 @@
 package com.alibou.frontend.controller;
 
 import com.alibou.common.dto.ClassroomDTO;
+import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.Classroom;
+import com.alibou.common.model.Student;
 import com.alibou.common.model.Teacher;
 import com.alibou.frontend.service.ClassroomService;
 import com.alibou.frontend.service.SchoolService;
@@ -20,6 +22,7 @@ public class ClassroomController {
 
     private final ClassroomService classroomService;
     private final TeacherService teacherService;
+    private final SchoolService schoolService;
 
     @GetMapping
     public String index(Model model) {
@@ -78,6 +81,42 @@ public class ClassroomController {
         }
         redirectAttributes.addFlashAttribute("success", "Teacher assigned successfully!");
         return "redirect:/classrooms/view/" + classroom.getId();
+    }
+
+    @GetMapping("/{id}/insert-student")
+    public String showInsertStudentForm(@PathVariable("id") Integer id, Model model) {
+        ClassroomDTO classroom = classroomService.getClassroomById(id);
+        model.addAttribute("classroom", classroom);
+        FullSchoolResponse school = schoolService.getFullSchoolResponseById(classroom.getSchoolId());
+        model.addAttribute("students", school.getStudents());
+        model.addAttribute("student", new Student());
+        return "insert-student";
+    }
+
+    @PostMapping("/{id}/insert-student")
+    public String insertStudent(@PathVariable("id") Integer id, @ModelAttribute Student student, RedirectAttributes redirectAttributes) {
+        if(student.getId() == null) {
+            redirectAttributes.addFlashAttribute("error", "Please select a student to assign!");
+            return "redirect:/classrooms/" + id + "/insert-student";
+        }
+        try {
+            classroomService.insertStudentToClassroom(id, student.getId());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/classrooms/" + id + "/insert-student";
+        }
+        redirectAttributes.addFlashAttribute("success", "Student inserted successfully!");
+        return "redirect:/classrooms/view/" + id;
+    }
+
+    @GetMapping("/{id}/remove-student")
+    public String showRemoveStudentForm(@PathVariable("id") Integer id, @RequestParam("studentId") Integer studentId) {
+        if(studentId == null) {
+            return "redirect:/classrooms/view/" + id;
+        }
+        classroomService.removeStudentFromClassroom(id, studentId);
+        return "redirect:/classrooms/view/" + id;
+
     }
 
 }

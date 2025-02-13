@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{_layouts/fixed-sidebar}">
+<head>
+  <title layout:fragment="header-title">Insert Student</title>
+</head>
+<body>
+<section layout:fragment="body-content-breadcrumb">
+  <ol class="breadcrumb float-sm-end">
+    <li class="breadcrumb-item active">Insert Student</li>
+  </ol>
+</section>
+
+<section layout:fragment="body-title">
+  <a th:text="${classroom != null} ? 'Insert Student to ' + ${classroom.name} : (${school != null} ? 'Insert Student to ' + ${school.name} : '')"></a>
+</section>
+
+<section class="content" layout:fragment="body-content-main">
+
+  <div th:if="${school != null}"  class="container mb-5">
+    <form th:action="@{/schools/{id}/insert-student(id=${school.id})}" th:object="${student}" method="post">
+      <div class="mb-3">
+        <label for="schoolStudentSelect" class="form-label">Choose a Student to be inserted</label>
+        <select id="schoolStudentSelect" class="form-select" th:field="*{id}">
+
+          <option value="">-- Select a Student--</option>
+          <option th:each="student : ${students}"
+                  th:value="${student.id}"
+                  th:text="${student.name}">
+          </option>
+        </select>
+        <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
+        <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" th:text="|Insert Student to ${school.name}|"></button>
+    </form>
+    <a class="btn btn-secondary mt-3" th:href="@{/schools/view/{id}(id=${school.id})}">Back to List</a>
+  </div>
+
+  <div th:if="${classroom != null}"  class="container mb-5">
+    <form th:action="@{/classrooms/{id}/insert-student(id=${classroom.id})}" th:object="${student}" method="post">
+      <div class="mb-3">
+        <label for="classStudentSelect" class="form-label">Choose a Student to be inserted</label>
+        <select id="classStudentSelect" class="form-select" th:field="*{id}">
+
+          <option value="">-- Select a Student--</option>
+          <option th:each="student : ${students}"
+                  th:value="${student.id}"
+                  th:text="${student.name}">
+          </option>
+        </select>
+        <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
+        <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" th:text="|Insert Student to ${classroom.name}|"></button>
+    </form>
+    <a class="btn btn-secondary mt-3" th:href="@{/classrooms/view/{id}(id=${classroom.id})}">Back to List</a>
+  </div>
+
+
+</section>
+
+<section layout:fragment="body_scripts" th:remove="tag">
+</section>
+</body>
+</html>

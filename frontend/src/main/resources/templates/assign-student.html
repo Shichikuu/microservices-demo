@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{_layouts/fixed-sidebar}">
+<head>
+  <title layout:fragment="header-title">Assign Student</title>
+</head>
+<body>
+<section layout:fragment="body-content-breadcrumb">
+  <ol class="breadcrumb float-sm-end">
+    <li class="breadcrumb-item active">Assign Student</li>
+  </ol>
+</section>
+
+<section layout:fragment="body-title">
+  <a th:text="${#lists.isEmpty(student.schoolId) ? 'Assign Student to a School' : 'Assign Student to a Classroom'}"></a>
+</section>
+
+<section class="content" layout:fragment="body-content-main">
+
+  <div th:if="${student.schoolId == null}"  class="container mb-5">
+    <form th:action="@{/students/assign-school}" th:object="${student}" method="post">
+      <input type="hidden" th:field="*{id}"/>
+      <div class="mb-3">
+        <label for="schoolSelect" class="form-label">Choose a School to assign to</label>
+        <select id="schoolSelect" class="form-select" th:field="*{schoolId}">
+
+          <!-- Show a default option if no teacher is assigned -->
+          <option value="">-- Select a School --</option>
+          <!-- Loop over the teacher list -->
+          <option th:each="school : ${schools}"
+                  th:value="${school.id}"
+                  th:text="${school.name}">
+          </option>
+        </select>
+        <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
+        <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Assign Student to School</button>
+    </form>
+    <a class="btn btn-secondary mt-3" th:href="@{/students}">Back to List</a>
+  </div>
+
+  <div th:if="${student.schoolId != null}"  class="container mb-5">
+    <form th:action="@{/students/assign-classroom)}" th:object="${student}" method="post">
+      <input type="hidden" th:field="*{id}"/>
+      <div class="mb-3">
+        <label for="classSelect" class="form-label">Choose a Classroom to assign to</label>
+        <select id="classSelect" class="form-select" th:field="*{id}">
+
+          <!-- Show a default option if no teacher is assigned -->
+          <option value="">-- Select a Student --</option>
+          <!-- Loop over the teacher list -->
+          <option th:each="class : ${classrooms}"
+                  th:value="${class.id}"
+                  th:text="${class.name}">
+          </option>
+        </select>
+        <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
+        <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Assign Student to Class</button>
+    </form>
+    <a class="btn btn-secondary mt-3" th:href="@{/classrooms/view/{id}(id=${classroom.id})}">Back to List</a>
+  </div>
+
+
+</section>
+
+<section layout:fragment="body_scripts" th:remove="tag">
+</section>
+</body>
+</html>

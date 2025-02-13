@@ -74,6 +74,9 @@ public class StudentService {
 
     public void insertStudentToClassroom(Integer classroomId, Integer studentId) {
         Student student = findStudentById(studentId);
+        if(student.getClassroomId() != null && student.getClassroomId().equals(classroomId)){
+            throw new IllegalArgumentException("Student already in this classroom");
+        }
         student.setClassroomId(classroomId);
         studentRepository.save(student);
     }
@@ -90,6 +93,9 @@ public class StudentService {
 
     public void insertStudentToSchool(Integer schoolId, Integer studentId) {
         Student student = findStudentById(studentId);
+        if(student.getSchoolId() != null && student.getSchoolId().equals(schoolId)){
+            throw new IllegalArgumentException("Student already in this school");
+        }
         student.setSchoolId(schoolId);
         studentRepository.save(student);
     }
@@ -100,14 +106,14 @@ public class StudentService {
             throw new IllegalArgumentException("Student not in this school");
         }
         student.setSchoolId(null);
+        student.setClassroomId(null);
         studentRepository.save(student);
     }
 
     public void removeAllStudentsBySchool(Integer schoolId) {
         List<Student> students = studentRepository.findAllBySchoolId(schoolId);
         for (Student student : students) {
-            student.setSchoolId(null);
-            studentRepository.save(student);
+            removeStudentFromSchool(schoolId, student.getId());
         }
     }
 
