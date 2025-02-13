@@ -49,7 +49,7 @@
 
   <div class="card mt-3">
     <div class="card-body">
-      <a class="btn btn-success mb-3" th:href="@{/students/new}">Add New Student</a>
+      <a class="btn btn-success mb-3" th:href="@{/schools/{id}/insert-student(id=${school.id})}">Add New Student</a>
       <table class="table">
         <thead>
         <tr>
@@ -63,9 +63,8 @@
           <td th:text="${student.id}"></td>
           <td th:text="${student.name}"></td>
           <td>
-            <a class="btn btn-primary btn-sm" th:href="@{/students/edit/{id}(id=${student.id})}">Edit</a>
-            <a class="btn btn-danger btn-sm" th:href="@{/students/delete/{id}(id=${student.id})}"
-               onclick="return confirm('Are you sure you want to delete this student record?');">Delete</a>
+            <a class="btn btn-danger btn-sm" th:href="@{/schools/{id}/remove-student(id=${school.id},studentId=${student.id})}"
+               onclick="return confirm('Are you sure you want to delete this student record from the school?');">Remove</a>
             <a class="btn btn-success btn-sm" th:href="@{/students/view/{id}(id=${student.id})}">View Details</a>
           </td>
         </tr>

@@ -3,6 +3,7 @@ package com.alibou.frontend.service;
 import com.alibou.frontend.client.SchoolClient;
 import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.School;
+import com.alibou.frontend.client.StudentClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SchoolService {
     private final SchoolClient schoolClient;
+    private final StudentClient studentClient;
 
     public List<School> getAllSchools() {
         return schoolClient.findAllSchools();
@@ -35,5 +37,11 @@ public class SchoolService {
 
     public FullSchoolResponse getFullSchoolResponseById(Integer id){ return schoolClient.findFullSchoolById(id); }
 
+    public void insertStudentToSchool(Integer schoolId, Integer studentId) {
+        studentClient.insertStudentToSchool(schoolId, studentId);
+    }
 
+    public void removeStudentFromSchool(Integer schoolId, Integer studentId) {
+        studentClient.removeStudentFromSchool(schoolId, studentId);
+    }
 }
