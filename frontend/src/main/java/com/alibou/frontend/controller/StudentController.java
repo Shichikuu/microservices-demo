@@ -1,9 +1,6 @@
 package com.alibou.frontend.controller;
 
-import com.alibou.common.dto.FullSchoolResponse;
-import com.alibou.common.model.School;
 import com.alibou.common.model.Student;
-import com.alibou.frontend.service.SchoolService;
 import com.alibou.frontend.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
