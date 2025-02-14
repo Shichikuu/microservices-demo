@@ -21,22 +21,10 @@ public interface StudentClient {
     @GetMapping("/classroomId={classroom-id}")
     List<Student> findAllStudentsByClassroomId(@PathVariable("classroom-id") Integer classroomId);
 
-    @PostMapping("/insert/classroomId={classroom-id}/studentId={student-id}")
-    public void insertStudentToClassroom(@PathVariable("classroom-id") Integer classroomId, @PathVariable("student-id") Integer studentId);
-
-    @PostMapping("/remove/classroomId={classroom-id}/studentId={student-id}")
-    public void removeStudentFromClassroom(@PathVariable("classroom-id") Integer classroomId, @PathVariable("student-id") Integer studentId);
-
-    @PostMapping("/insert/schoolId={school-id}/studentId={student-id}")
-    public void insertStudentToSchool(@PathVariable("school-id") Integer schoolId, @PathVariable("student-id") Integer studentId);
-
-    @PostMapping("/remove/schoolId={school-id}/studentId={student-id}")
-    public void removeStudentFromSchool(@PathVariable("school-id") Integer schoolId, @PathVariable("student-id") Integer studentId);
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     void saveStudent(@RequestBody Student student);
 
     @GetMapping("/search")
-    public Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
+    Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
 }

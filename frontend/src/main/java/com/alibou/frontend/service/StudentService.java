@@ -27,6 +27,7 @@ public class StudentService {
     }
 
     public Page<Student> findAllStudentsByName(String name, Pageable pageable) {
-        return studentClient.search(name, pageable);
+        Page<Student> students = studentClient.search(name, pageable);
+        return students;
     }
 }

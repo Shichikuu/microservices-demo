@@ -3,6 +3,7 @@ package com.alibou.frontend.controller;
 import com.alibou.common.dto.ClassroomDTO;
 import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.Classroom;
+import com.alibou.common.model.School;
 import com.alibou.common.model.Student;
 import com.alibou.common.model.Teacher;
 import com.alibou.frontend.service.ClassroomService;
@@ -36,7 +37,8 @@ public class ClassroomController {
             return "redirect:/";
         }
         Classroom classroom = new Classroom();
-        classroom.setSchoolId(schoolId);
+        School school = schoolService.getSchoolById(schoolId);
+        classroom.setSchool(school);
         model.addAttribute("classroom", classroom);
         return "classroom-form";
     }
@@ -44,7 +46,7 @@ public class ClassroomController {
     @PostMapping
     public String createClassroom(@ModelAttribute Classroom classroom) {
         classroomService.saveClassroom(classroom);
-        return "redirect:/view/" + classroom.getSchoolId();
+        return "redirect:/view/" + classroom.getSchool().getId();
     }
 
 

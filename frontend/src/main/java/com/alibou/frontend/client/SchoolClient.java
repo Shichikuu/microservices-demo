@@ -1,6 +1,5 @@
 package com.alibou.frontend.client;
 
-import com.alibou.common.config.CustomFeignErrorDecoder;
 import com.alibou.common.config.FeignConfig;
 import com.alibou.common.dto.ClassroomDTO;
 import com.alibou.common.dto.FullSchoolResponse;
@@ -10,7 +9,6 @@ import com.alibou.common.model.School;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,7 +52,7 @@ public interface SchoolClient {
     public List<StudentFullResponse> getAllFullStudentResponse();
 
     @GetMapping("/search")
-    public Page<School> search(@RequestParam("name") String name, Pageable pageable);
+    Page<School> search(@RequestParam("name") String name, Pageable pageable);
 
     @GetMapping("/search-students")
     public Page<StudentFullResponse> searchStudents(@RequestParam("name") String name, Pageable pageable);

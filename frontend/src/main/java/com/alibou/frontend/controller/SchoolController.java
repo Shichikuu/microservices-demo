@@ -1,14 +1,13 @@
 package com.alibou.frontend.controller;
 
-import com.alibou.common.dto.ClassroomDTO;
 import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Student;
-import com.alibou.common.model.Teacher;
 import com.alibou.frontend.service.SchoolService;
 import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.School;
 import com.alibou.frontend.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
@@ -29,12 +28,14 @@ public class SchoolController {
     private final StudentService studentService;
 
     @GetMapping
-    public String getAllSchools(@PageableDefault(size = 10) @SortDefault("id") Pageable pageable, Model model, @RequestParam(value = "value", required = false) String name){
+    public String getAllSchools(@PageableDefault(size = 10) Pageable pageable, Model model, @RequestParam(value = "value", required = false) String name){
         if (name != null) {
             model.addAttribute("key", name);
-            model.addAttribute("schools", service.findAllSchoolsByName(name, pageable));
+            Page<School> schools = service.findAllSchoolsByName(name, pageable);
+            model.addAttribute("schools", schools);
         } else {
-            model.addAttribute("schools", service.findAllSchoolsByName("", pageable));
+            Page<School> schools = service.findAllSchoolsByName("", pageable);
+            model.addAttribute("schools", schools);
         }
         return "school";
     }

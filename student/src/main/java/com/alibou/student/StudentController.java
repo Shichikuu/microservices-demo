@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,26 +25,6 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody Student student) {
         service.saveStudent(student);
-    }
-
-    @PostMapping("/insert/classroomId={classroom-id}/studentId={student-id}")
-    public void insertStudentToClassroom(@PathVariable("classroom-id") Integer classroomId, @PathVariable("student-id") Integer studentId) {
-        service.insertStudentToClassroom(classroomId, studentId);
-    }
-
-    @PostMapping("/remove/classroomId={classroom-id}/studentId={student-id}")
-    public void removeStudentFromClassroom(@PathVariable("classroom-id") Integer classroomId, @PathVariable("student-id") Integer studentId) {
-        service.removeStudentFromClassroom(classroomId, studentId);
-    }
-
-    @PostMapping("/insert/schoolId={school-id}/studentId={student-id}")
-    public void insertStudentToSchool(@PathVariable("school-id") Integer schoolId, @PathVariable("student-id") Integer studentId) {
-        service.insertStudentToSchool(schoolId, studentId);
-    }
-
-    @PostMapping("/remove/schoolId={school-id}/studentId={student-id}")
-    public void removeStudentFromSchool(@PathVariable("school-id") Integer schoolId, @PathVariable("student-id") Integer studentId) {
-        service.removeStudentFromSchool(schoolId, studentId);
     }
 
     @GetMapping
@@ -87,11 +66,6 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public void saveCourseScore(@RequestBody CourseScore courseScore) {
         service.saveCourseScore(courseScore);
-    }
-
-    @PostMapping("/removeAll/schoolId={school-id}")
-    void removeAllStudentsBySchool(@PathVariable("school-id") Integer schoolId){
-        service.removeAllStudentsBySchool(schoolId);
     }
 
     @GetMapping("/search")

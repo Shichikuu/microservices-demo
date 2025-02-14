@@ -21,9 +21,6 @@ public interface StudentClient {
     @PostMapping
     void saveStudent(@RequestBody Student student);
 
-    @PostMapping("/removeAll/schoolId={school-id}")
-    void removeAllStudentsBySchool(@PathVariable("school-id") Integer schoolId);
-
     @GetMapping("/{student-id}")
     Student findStudentById(@PathVariable("student-id") Integer studentId);
 
@@ -31,6 +28,6 @@ public interface StudentClient {
     List<Student> findAllStudents();
 
     @GetMapping("/search")
-    public Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
+    Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
 
 }

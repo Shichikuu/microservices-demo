@@ -31,7 +31,7 @@ public class TeacherService {
     public void removeAllTeachersBySchool(Integer schoolId) {
         List<Teacher> teachers = teacherRepository.findAllBySchoolId(schoolId);
         for(Teacher teacher: teachers){
-            teacher.setSchoolId(null);
+            teacher.setSchool(null);
             teacherRepository.save(teacher);
         }
     }

@@ -10,7 +10,5 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
     List<Student> findAllBySchoolId(Integer schoolId);
     List<Student> findAllByClassroomId(Integer classroomId);
-    Page<Student> findAllBySchoolId(Integer schoolId, Pageable pageable);
-    Page<Student> findAllByClassroomId(Integer classroomId, Pageable pageable);
     Page<Student> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
 }

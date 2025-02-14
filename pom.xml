@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.alibou</groupId>
+    <artifactId>microservices-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>Microservices Parent</name>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.2</version>
+        <relativePath/> <!-- Lookup in repository -->
+    </parent>
+
+    <!-- Define common properties -->
+    <properties>
+        <java.version>17</java.version>
+        <!-- add other properties as needed -->
+    </properties>
+
+    <!-- Dependency Management for shared dependencies -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.4.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Add any other BOM imports if necessary -->
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate6</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- Build plugins, plugin management -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Configure common plugins here -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- List of modules (child projects) -->
+    <modules>
+        <module>common</module>
+        <module>config-server</module>
+        <module>course</module>
+        <module>discovery</module>
+        <module>gateway</module>
+        <module>student</module>
+        <module>frontend</module>
+        <module>school</module>
+        <module>teacher</module>
+        <!-- Add other modules as needed -->
+    </modules>
+</project>

@@ -56,7 +56,7 @@ public class StudentService {
         List<CourseScore> cs = courseScoreRepository.findByStudentId(studentId);
         List<CourseScoreResponse> csr = new ArrayList<>();
         for (CourseScore i : cs) {
-            Course c = courseClient.findCourseById(i.getCourseId());
+            Course c = courseClient.findCourseById(i.getCourse().getId());
             csr.add(CourseScoreResponse.builder().course(c).student(s).score(i.getScore()).build());
         }
         return StudentReportDTO.builder().student(s).courseScoreResponses(csr).build();
@@ -74,53 +74,10 @@ public class StudentService {
         courseScoreRepository.save(courseScore);
     }
 
-    public void insertStudentToClassroom(Integer classroomId, Integer studentId) {
-        Student student = findStudentById(studentId);
-        if(student.getClassroomId() != null && student.getClassroomId().equals(classroomId)){
-            throw new IllegalArgumentException("Student already in this classroom");
-        }
-        student.setClassroomId(classroomId);
-        studentRepository.save(student);
-    }
-
-    public void removeStudentFromClassroom(Integer classroomId, Integer studentId) {
-        Student student = findStudentById(studentId);
-        if (student.getClassroomId() == null || !student.getClassroomId().equals(classroomId)) {
-            throw new IllegalArgumentException("Student not in this classroom");
-        }
-        student.setClassroomId(null);
-        studentRepository.save(student);
-    }
-
-
-    public void insertStudentToSchool(Integer schoolId, Integer studentId) {
-        Student student = findStudentById(studentId);
-        if(student.getSchoolId() != null && student.getSchoolId().equals(schoolId)){
-            throw new IllegalArgumentException("Student already in this school");
-        }
-        student.setSchoolId(schoolId);
-        studentRepository.save(student);
-    }
-
-    public void removeStudentFromSchool(Integer schoolId, Integer studentId) {
-        Student student = findStudentById(studentId);
-        if (student.getSchoolId() == null || !student.getSchoolId().equals(schoolId)) {
-            throw new IllegalArgumentException("Student not in this school");
-        }
-        student.setSchoolId(null);
-        student.setClassroomId(null);
-        studentRepository.save(student);
-    }
-
-    public void removeAllStudentsBySchool(Integer schoolId) {
-        List<Student> students = studentRepository.findAllBySchoolId(schoolId);
-        for (Student student : students) {
-            removeStudentFromSchool(schoolId, student.getId());
-        }
-    }
 
     public Page<Student> findAllStudentsByName(String name, Pageable pageable) {
-        return studentRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        Page<Student> students = studentRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        return students;
     }
 
 }

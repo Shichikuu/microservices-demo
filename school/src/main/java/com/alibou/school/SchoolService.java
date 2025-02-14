@@ -28,6 +28,7 @@ public class SchoolService {
     private final ClassroomRepository classroomRepository;
     private final EventRepository eventRepository;
     private final StudentClient studentClient;
+    private final StudentService studentService;
     private final TeacherClient teacherClient;
 
     public void saveSchool(School student) {
@@ -49,7 +50,8 @@ public class SchoolService {
     }
 
     public Page<School> search(String name, Pageable pageable) {
-        return schoolRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        Page<School> schools = schoolRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        return schools;
     }
 
     public List<Student> findAllStudentsBySchool(Integer schoolId) {
@@ -61,15 +63,15 @@ public class SchoolService {
     }
 
     public ClassroomDTO findClassroomById(Integer classroomId) {
-        var cr = classroomRepository.findById(classroomId).orElse(Classroom.builder().name("NOT FOUND").schoolId(0).build());
-        if(cr.getTeacherId() == null){
+        var cr = classroomRepository.findById(classroomId).orElse(Classroom.builder().name("NOT FOUND").school(null).build());
+        if(cr.getTeacher() == null){
             var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-            var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+            var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
             return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).students(s).build();
         }
-        var t = teacherClient.findTeacherById(cr.getTeacherId());
+        var t = teacherClient.findTeacherById(cr.getTeacher().getId());
         var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-        var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+        var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
         return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).teacherId(t.getId()).assignedTeacher(t).students(s).build();
     }
 
@@ -85,7 +87,7 @@ public class SchoolService {
         var c = findClassById(classroomId);
         var s = studentClient.findAllStudentsByClassroomId(classroomId);
         for (Student student : s) {
-            student.setClassroomId(null);
+            student.setClassroom(null);
             studentClient.saveStudent(student);
         }
         classroomRepository.deleteById(classroomId);
@@ -94,7 +96,7 @@ public class SchoolService {
     public void deleteSchool(Integer schoolId) {
         classroomRepository.deleteAllBySchoolId(schoolId);
         teacherClient.removeAllTeachersBySchool(schoolId);
-        studentClient.removeAllStudentsBySchool(schoolId);
+        studentService.removeAllStudentsBySchool(schoolId);
         schoolRepository.deleteById(schoolId);
     }
 
@@ -114,14 +116,14 @@ public class SchoolService {
     public List<ClassroomDTO> findAllClassrooms() {
         var classrooms = classroomRepository.findAll();
         return classrooms.stream().map(cr -> {
-            if(cr.getTeacherId() == null){
+            if(cr.getTeacher() == null){
                 var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-                var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+                var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
                 return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).students(s).build();
             }else{
-                var t = teacherClient.findTeacherById(cr.getTeacherId());
+                var t = teacherClient.findTeacherById(cr.getTeacher().getId());
                 var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-                var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+                var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
                 return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).students(s).assignedTeacher(t).teacherId(t.getId()).build();
             }
         }).toList();
@@ -130,14 +132,14 @@ public class SchoolService {
     public List<ClassroomDTO> findAllFullClassroomsBySchoolId(Integer schoolId) {
         var classrooms = classroomRepository.findAllBySchoolId(schoolId);
         return classrooms.stream().map(cr -> {
-            if(cr.getTeacherId() == null){
+            if(cr.getTeacher() == null){
                 var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-                var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+                var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
                 return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).students(s).build();
             }else{
-                var t = teacherClient.findTeacherById(cr.getTeacherId());
+                var t = teacherClient.findTeacherById(cr.getTeacher().getId());
                 var s = studentClient.findAllStudentsByClassroomId(cr.getId());
-                var sc = schoolRepository.findById(cr.getSchoolId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
+                var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
                 return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).students(s).assignedTeacher(t).teacherId(t.getId()).build();
             }
 
@@ -146,16 +148,17 @@ public class SchoolService {
 
     public void assignTeacherToClassroom(Integer teacherId, Integer classroomId) {
         Classroom classroom = classroomRepository.findById(classroomId).orElseThrow(() -> new IllegalArgumentException("Classroom not found"));
-        classroom.setTeacherId(teacherId);
+        Teacher teacher = teacherClient.findTeacherById(teacherId);
+        classroom.setTeacher(teacher);
         classroomRepository.save(classroom);
     }
 
     public StudentFullResponse getStudentFullResponse(Integer studentId) {
         var student = studentClient.findStudentById(studentId);
-        if(student.getSchoolId() != null){
-            var school = getSchoolById(student.getSchoolId());
-            if(student.getClassroomId() != null) {
-                var classroom = findClassById(student.getClassroomId());
+        if(student.getSchool() != null){
+            var school = getSchoolById(student.getSchool().getId());
+            if(student.getClassroom() != null) {
+                var classroom = findClassById(student.getClassroom().getId());
                 return StudentFullResponse.builder().id(studentId).name(student.getName()).email(student.getEmail()).schoolId(school.getId()).school(school).classroomId(classroom.getId()).classroom(classroom).build();
             }
             return StudentFullResponse.builder().id(studentId).name(student.getName()).email(student.getEmail()).schoolId(school.getId()).school(school).build();

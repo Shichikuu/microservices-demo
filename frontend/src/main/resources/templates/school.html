@@ -19,7 +19,7 @@
 
 <section class="content" layout:fragment="body-content-main">
     <a class="btn btn-success mb-3" th:href="@{/schools/new}">Add New School</a>
-    <form th:action="@{/students}" method="get">
+    <form th:action="@{/schools}" method="get">
         <div class="input-group input-group-sm mb-3" style="width: 250px;">
             <input type="text" name="value" class="form-control pull-right"
                    placeholder="Pencarian Berdasarkan Nama" th:if="${key} == null"/>
@@ -54,7 +54,7 @@
         </tr>
         </tbody>
     </table>
-    <div th:if="${not #lists.isEmpty(students.content)}">
+    <div th:if="${not #lists.isEmpty(schools.content)}">
 
         <div sd:pagination-summary="">info</div>
         <div class="text-center">

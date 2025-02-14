@@ -20,3 +20,4 @@ application:
     teachers-url: http://localhost:8222/api/v1/teacher
     courses-url: http://localhost:8222/api/v1/course
     schools-url: http://localhost:8222/api/v1/schools
+    schools-students-url: http://localhost:8222/api/v1/schools/student
