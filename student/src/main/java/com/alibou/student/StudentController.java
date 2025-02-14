@@ -5,6 +5,10 @@ import com.alibou.common.dto.StudentReportDTO;
 import com.alibou.common.model.CourseScore;
 import com.alibou.common.model.Student;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -88,5 +92,10 @@ public class StudentController {
     @PostMapping("/removeAll/schoolId={school-id}")
     void removeAllStudentsBySchool(@PathVariable("school-id") Integer schoolId){
         service.removeAllStudentsBySchool(schoolId);
+    }
+
+    @GetMapping("/search")
+    public Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable) {
+        return service.findAllStudentsByName(name, pageable);
     }
 }

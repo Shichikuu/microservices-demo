@@ -1,8 +1,6 @@
 package com.alibou.common.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -13,9 +11,12 @@ import lombok.*;
 @Builder
 public class Event {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
+//    @ManyToOne
+//    @JoinColumn(name = "school_id", insertable = false, updatable = false)
+//    private School school;
     private Integer schoolId;
 }

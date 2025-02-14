@@ -1,8 +1,6 @@
 package com.alibou.common.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -14,9 +12,15 @@ import lombok.*;
 public class CourseScore {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+//    @ManyToOne
+//    @JoinColumn(name = "course_id")
+//    private Course course;
     private Integer courseId;
+//    @ManyToOne
+//    @JoinColumn(name = "student_id")
+//    private Student student;
     private Integer studentId;
     private Integer score;
 }

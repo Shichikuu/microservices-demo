@@ -1,10 +1,9 @@
 package com.alibou.common.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,4 +18,13 @@ public class School {
     private Integer id;
     private String name;
     private String email;
+
+//    @OneToMany(mappedBy = "school", fetch = FetchType.LAZY)
+//    private List<Student> students;
+//
+//    @OneToMany(mappedBy = "school", fetch = FetchType.LAZY)
+//    private List<Teacher> teachers;
+//
+//    @OneToMany(mappedBy = "school", fetch = FetchType.LAZY)
+//    private List<Classroom> classrooms;
 }

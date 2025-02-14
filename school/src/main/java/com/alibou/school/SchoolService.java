@@ -13,6 +13,8 @@ import com.alibou.school.repository.SchoolRepository;
 import com.alibou.common.model.Student;
 import com.alibou.common.model.Teacher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,6 +46,10 @@ public class SchoolService {
         var events = eventRepository.findAllBySchoolId(schoolId);
         var teachers = teacherClient.findAllTeachersBySchool(schoolId);
         return FullSchoolResponse.builder().id(schoolId).name(school.getName()).teachers(teachers).email(school.getEmail()).students(students).classrooms(classrooms).events(events).build();
+    }
+
+    public Page<School> search(String name, Pageable pageable) {
+        return schoolRepository.findAllByNameContainingIgnoreCase(name, pageable);
     }
 
     public List<Student> findAllStudentsBySchool(Integer schoolId) {
@@ -166,4 +172,9 @@ public class SchoolService {
         return fullStudents;
     }
 
+    public Page<StudentFullResponse> searchStudents(String name, Pageable pageable) {
+        Page<Student> students = studentClient.search(name, pageable);
+        System.out.println(students);
+        return students.map(student -> getStudentFullResponse(student.getId()));
+    }
 }

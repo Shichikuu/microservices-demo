@@ -11,6 +11,8 @@ import com.alibou.common.model.Student;
 import com.alibou.student.repository.CourseScoreRepository;
 import com.alibou.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -115,6 +117,10 @@ public class StudentService {
         for (Student student : students) {
             removeStudentFromSchool(schoolId, student.getId());
         }
+    }
+
+    public Page<Student> findAllStudentsByName(String name, Pageable pageable) {
+        return studentRepository.findAllByNameContainingIgnoreCase(name, pageable);
     }
 
 }

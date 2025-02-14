@@ -2,10 +2,10 @@ package com.alibou.school.client;
 
 import com.alibou.common.model.Student;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +29,8 @@ public interface StudentClient {
 
     @GetMapping
     List<Student> findAllStudents();
+
+    @GetMapping("/search")
+    public Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
 
 }

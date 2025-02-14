@@ -1,12 +1,14 @@
 package com.alibou.frontend.client;
 
-import com.alibou.common.config.CustomFeignErrorDecoder;
+
 import com.alibou.common.config.FeignConfig;
 import com.alibou.common.model.Student;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +32,11 @@ public interface StudentClient {
 
     @PostMapping("/remove/schoolId={school-id}/studentId={student-id}")
     public void removeStudentFromSchool(@PathVariable("school-id") Integer schoolId, @PathVariable("student-id") Integer studentId);
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    void saveStudent(@RequestBody Student student);
+
+    @GetMapping("/search")
+    public Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
 }

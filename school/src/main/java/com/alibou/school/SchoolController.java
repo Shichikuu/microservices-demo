@@ -8,6 +8,8 @@ import com.alibou.common.model.School;
 import com.alibou.common.model.Student;
 import com.alibou.common.model.Teacher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,11 @@ public class SchoolController {
     @GetMapping
     public ResponseEntity<List<School>> findAllSchools() {
         return ResponseEntity.ok(service.findAllSchools());
+    }
+
+    @GetMapping("/search")
+    public Page<School> search(@RequestParam("name") String name, Pageable pageable) {
+        return service.search(name, pageable);
     }
 
     @GetMapping("/full/schoolId={school-id}")
@@ -95,6 +102,11 @@ public class SchoolController {
     @GetMapping("/students")
     public ResponseEntity<List<StudentFullResponse>> getAllStudentFullResponse() {
         return ResponseEntity.ok(service.getAllStudentFullResponse());
+    }
+
+    @GetMapping("/search-students")
+    public Page<StudentFullResponse> searchStudents(@RequestParam("name") String name, Pageable pageable) {
+        return service.searchStudents(name, pageable);
     }
 
 }

@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
+import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
 @EnableFeignClients
 @SpringBootApplication(exclude = {
@@ -17,6 +19,11 @@ public class FrontendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FrontendApplication.class, args);
+	}
+
+	@Bean
+	public SpringDataDialect springDataDialect() {
+		return new SpringDataDialect();
 	}
 
 }

@@ -8,6 +8,8 @@ import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Classroom;
 import com.alibou.common.model.School;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,4 +52,10 @@ public interface SchoolClient {
 
     @GetMapping("/students")
     public List<StudentFullResponse> getAllFullStudentResponse();
+
+    @GetMapping("/search")
+    public Page<School> search(@RequestParam("name") String name, Pageable pageable);
+
+    @GetMapping("/search-students")
+    public Page<StudentFullResponse> searchStudents(@RequestParam("name") String name, Pageable pageable);
 }

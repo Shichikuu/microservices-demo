@@ -9,6 +9,9 @@ import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.School;
 import com.alibou.frontend.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,8 +29,13 @@ public class SchoolController {
     private final StudentService studentService;
 
     @GetMapping
-    public String getAllSchools(Model model){
-        model.addAttribute("schools", service.getAllSchools());
+    public String getAllSchools(@PageableDefault(size = 10) @SortDefault("id") Pageable pageable, Model model, @RequestParam(value = "value", required = false) String name){
+        if (name != null) {
+            model.addAttribute("key", name);
+            model.addAttribute("schools", service.findAllSchoolsByName(name, pageable));
+        } else {
+            model.addAttribute("schools", service.findAllSchoolsByName("", pageable));
+        }
         return "school";
     }
 
