@@ -59,6 +59,58 @@
     <a class="btn btn-secondary mt-3" th:href="@{/classrooms/view/{id}(id=${classroom.id})}">Back to List</a>
   </div>
 
+  <div class="box-tools">
+    <form th:action="@{/students}" method="get">
+      <div class="input-group input-group-sm mb-3" style="width: 250px;">
+        <input type="text" name="value" class="form-control pull-right"
+               placeholder="Pencarian Berdasarkan Nama" th:if="${key} == null"/>
+        <input type="text" name="value" class="form-control pull-right"
+               placeholder="Pencarian Berdasarkan Nama" th:if="${key} != null"
+               th:value="${key}"/>
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </form>
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="id">Id</a></th>
+        <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="name">Name</a></th>
+        <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="email">Email</a></th>
+        <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="school.name">School</a></th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.school.name}"></td>
+        <td>
+          <a class="btn btn-primary btn-sm" th:href="@{/students/edit/{id}(id=${student.id})}">Edit</a>
+          <a class="btn btn-danger btn-sm" th:href="@{/students/delete/{id}(id=${student.id})}"
+             onclick="return confirm('Are you sure you want to delete this school?');">Delete</a>
+          <a class="btn btn-success btn-sm" th:href="@{/students/view/{id}(id=${student.id})}">View Details</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div th:if="${not #lists.isEmpty(students.content)}">
+
+      <div sd:pagination-summary="">info</div>
+      <div class="text-center">
+        <nav>
+          <ul class="pagination" sd:pagination="full">
+            <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+            <li class="disabled"><a href="#" aria-label="Previous"><span
+                    aria-hidden="true">&laquo;</span></a></li>
+            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
 
 </section>
 

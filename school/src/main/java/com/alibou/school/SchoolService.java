@@ -62,7 +62,7 @@ public class SchoolService {
         return teacherClient.findAllTeachersBySchool(schoolId);
     }
 
-    public ClassroomDTO findClassroomById(Integer classroomId) {
+    public ClassroomDTO findClassroomResponseById(Integer classroomId) {
         var cr = classroomRepository.findById(classroomId).orElse(Classroom.builder().name("NOT FOUND").school(null).build());
         if(cr.getTeacher() == null){
             var s = studentClient.findAllStudentsByClassroomId(cr.getId());
@@ -73,6 +73,10 @@ public class SchoolService {
         var s = studentClient.findAllStudentsByClassroomId(cr.getId());
         var sc = schoolRepository.findById(cr.getSchool().getId()).orElse(School.builder().name("NOT FOUND").email("NOT FOUND").build());
         return ClassroomDTO.builder().schoolId(sc.getId()).id(cr.getId()).name(cr.getName()).schoolName(sc.getName()).teacherId(t.getId()).assignedTeacher(t).students(s).build();
+    }
+
+    public Classroom findClassroomById(Integer classroomId) {
+        return classroomRepository.findById(classroomId).orElse(Classroom.builder().name("NOT FOUND").school(null).build());
     }
 
     public Classroom findClassById(Integer classroomId) {
@@ -88,7 +92,7 @@ public class SchoolService {
         var s = studentClient.findAllStudentsByClassroomId(classroomId);
         for (Student student : s) {
             student.setClassroom(null);
-            studentClient.saveStudent(student);
+            studentClient.save(student);
         }
         classroomRepository.deleteById(classroomId);
     }

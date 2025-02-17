@@ -40,21 +40,32 @@ public class ClassroomController {
         School school = schoolService.getSchoolById(schoolId);
         classroom.setSchool(school);
         model.addAttribute("classroom", classroom);
+        model.addAttribute("school", school);
         return "classroom-form";
     }
 
     @PostMapping
     public String createClassroom(@ModelAttribute Classroom classroom) {
+        School school = schoolService.getSchoolById(classroom.getSchool().getId());
+        classroom.setSchool(school);
         classroomService.saveClassroom(classroom);
         return "redirect:/view/" + classroom.getSchool().getId();
     }
 
 
+//    @GetMapping("/view/{id}")
+//    public String showClassroom(@PathVariable("id") Integer id, Model model) {
+//        ClassroomDTO classroom = classroomService.getClassroomById(id);
+//        model.addAttribute("classroom", classroom);
+//        model.addAttribute("teachers", teacherService.findAllTeachersBySchool(classroom.getSchoolId()));
+//        return "classroom-details";
+//    }
+
     @GetMapping("/view/{id}")
     public String showClassroom(@PathVariable("id") Integer id, Model model) {
-        ClassroomDTO classroom = classroomService.getClassroomById(id);
+        Classroom classroom = classroomService.getClassroomById(id);
         model.addAttribute("classroom", classroom);
-        model.addAttribute("teachers", teacherService.findAllTeachersBySchool(classroom.getSchoolId()));
+        model.addAttribute("teachers", classroom.getSchool().getTeachers());
         return "classroom-details";
     }
 
@@ -65,12 +76,12 @@ public class ClassroomController {
     }
 
     @PostMapping("/assign-teacher")
-    public String assignTeacherToClassroom(@ModelAttribute("classroom") ClassroomDTO classroom, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        Teacher teacher = classroom.getAssignedTeacher();
+    public String assignTeacherToClassroom(@ModelAttribute("classroom") Classroom classroom, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        Teacher teacher = classroom.getTeacher();
         if(bindingResult.hasErrors()) {
             return "redirect:/classrooms/view/" + classroom.getId();
         }
-        if(teacher.getId() == null) {
+        if(teacher == null || teacher.getId() == null) {
             redirectAttributes.addFlashAttribute("error", "Please select a teacher to assign!");
             return "redirect:/classrooms/view/" + classroom.getId();
         }
@@ -85,12 +96,21 @@ public class ClassroomController {
         return "redirect:/classrooms/view/" + classroom.getId();
     }
 
+//    @GetMapping("/{id}/insert-student")
+//    public String showInsertStudentForm(@PathVariable("id") Integer id, Model model) {
+//        ClassroomDTO classroom = classroomService.getClassroomById(id);
+//        model.addAttribute("classroom", classroom);
+//        FullSchoolResponse school = schoolService.getFullSchoolResponseById(classroom.getSchoolId());
+//        model.addAttribute("students", school.getStudents());
+//        model.addAttribute("student", new Student());
+//        return "insert-student";
+//    }
+
     @GetMapping("/{id}/insert-student")
     public String showInsertStudentForm(@PathVariable("id") Integer id, Model model) {
-        ClassroomDTO classroom = classroomService.getClassroomById(id);
+        Classroom classroom = classroomService.getClassroomById(id);
         model.addAttribute("classroom", classroom);
-        FullSchoolResponse school = schoolService.getFullSchoolResponseById(classroom.getSchoolId());
-        model.addAttribute("students", school.getStudents());
+        model.addAttribute("students", classroom.getSchool().getStudents());
         model.addAttribute("student", new Student());
         return "insert-student";
     }

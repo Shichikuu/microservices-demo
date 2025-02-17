@@ -29,7 +29,11 @@ public class ClassroomService {
         client.deleteClassroom(id);
     }
 
-    public ClassroomDTO getClassroomById(Integer id) {
+//    public ClassroomDTO getClassroomById(Integer id) {
+//        return client.getClassroomById(id);
+//    }
+
+    public Classroom getClassroomById(Integer id) {
         return client.getClassroomById(id);
     }
 

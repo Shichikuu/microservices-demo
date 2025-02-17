@@ -18,7 +18,7 @@
 
 <section class="content" layout:fragment="body-content-main">
   <form th:if="${classroom.id} == null" th:action="@{/classrooms}" th:object="${classroom}" method="post">
-    <input type="hidden" th:field="*{school}"/>
+    <input type="hidden" th:field="*{school.id}"/>
     <div class="form-group">
       <label for="name">Classroom Name</label>
       <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter classroom name" required/>

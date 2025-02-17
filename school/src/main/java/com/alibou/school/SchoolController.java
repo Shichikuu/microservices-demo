@@ -65,8 +65,13 @@ public class SchoolController {
         return ResponseEntity.ok(service.findAllTeachersBySchool(schoolId));
     }
 
+//    @GetMapping("/classroomId={classroom-id}")
+//    public ResponseEntity<ClassroomDTO> findClassroomById(@PathVariable("classroom-id") Integer classroomId) {
+//        return ResponseEntity.ok(service.findClassroomById(classroomId));
+//    }
+
     @GetMapping("/classroomId={classroom-id}")
-    public ResponseEntity<ClassroomDTO> findClassroomById(@PathVariable("classroom-id") Integer classroomId) {
+    public ResponseEntity<Classroom> findClassroomById(@PathVariable("classroom-id") Integer classroomId) {
         return ResponseEntity.ok(service.findClassroomById(classroomId));
     }
 

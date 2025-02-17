@@ -23,7 +23,7 @@ public class StudentService {
             throw new IllegalArgumentException("Student already in this classroom");
         }
         student.setClassroom(classroomRepository.findById(classroomId).orElseThrow(() -> new IllegalArgumentException("Classroom not found")));
-        client.saveStudent(student);
+        client.save(student);
     }
 
     public void removeStudentFromClassroom(Integer classroomId, Integer studentId) {
@@ -32,7 +32,7 @@ public class StudentService {
             throw new IllegalArgumentException("Student not in this classroom");
         }
         student.setClassroom(null);
-        client.saveStudent(student);
+        client.save(student);
     }
 
 
@@ -42,7 +42,7 @@ public class StudentService {
             throw new IllegalArgumentException("Student already in this school");
         }
         student.setSchool(schoolRepository.findById(schoolId).orElseThrow(() -> new IllegalArgumentException("School not found")));
-        client.saveStudent(student);
+        client.save(student);
     }
 
     public void removeStudentFromSchool(Integer schoolId, Integer studentId) {
@@ -52,7 +52,7 @@ public class StudentService {
         }
         student.setSchool(null);
         student.setClassroom(null);
-        client.saveStudent(student);
+        client.save(student);
     }
 
     public void removeAllStudentsBySchool(Integer schoolId) {

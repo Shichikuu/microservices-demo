@@ -78,7 +78,7 @@ public class SchoolController {
 
     @GetMapping("/view/{id}")
     public String viewSchoolDetails(@PathVariable("id") Integer id, Model model){
-        FullSchoolResponse school = service.getFullSchoolResponseById(id);
+        School school = service.getSchoolById(id);
         model.addAttribute("school", school);
         return "school-details";
     }

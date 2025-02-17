@@ -19,7 +19,7 @@ public interface StudentClient {
     List<Student> findAllStudentsByClassroomId(@PathVariable("classroom-id") Integer classroomId);
 
     @PostMapping
-    void saveStudent(@RequestBody Student student);
+    void save(@RequestBody Student student);
 
     @GetMapping("/{student-id}")
     Student findStudentById(@PathVariable("student-id") Integer studentId);

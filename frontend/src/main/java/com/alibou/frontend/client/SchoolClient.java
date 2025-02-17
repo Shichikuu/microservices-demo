@@ -34,7 +34,10 @@ public interface SchoolClient {
     public List<ClassroomDTO> findAllClassrooms();
 
     @GetMapping("/classroomId={id}")
-    public ClassroomDTO getClassroomById(@PathVariable("id") Integer id);
+    public Classroom getClassroomById(@PathVariable("id") Integer id);
+
+//    @GetMapping("/classroomId={id}")
+//    public ClassroomDTO getClassroomById(@PathVariable("id") Integer id);
 
     @GetMapping("/full/schoolId={school-id}")
     public FullSchoolResponse findFullSchoolById(@PathVariable("school-id") Integer schoolId);

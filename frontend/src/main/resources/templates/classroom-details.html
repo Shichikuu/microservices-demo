@@ -24,7 +24,7 @@
             <input type="hidden" th:field="*{id}"/>
             <div class="mb-3">
                 <label for="teacherSelect" class="form-label">Assign a Teacher to the Class</label>
-                <select id="teacherSelect" class="form-select" th:field="*{assignedTeacher.id}">
+                <select id="teacherSelect" class="form-select" th:field="*{teacher.id}">
 
                     <!-- Show a default option if no teacher is assigned -->
                     <option value="">-- Select a teacher --</option>
