@@ -1,5 +1,6 @@
 package com.alibou.frontend.service;
 
+import com.alibou.common.model.Student;
 import com.alibou.frontend.client.SchoolClient;
 import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.School;

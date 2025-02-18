@@ -84,33 +84,33 @@ public class SchoolController {
     }
 
     @GetMapping("/{id}/insert-student")
-    public String showInsertStudentForm(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("student", new Student());
-        List<StudentFullResponse> students = studentService.getAllStudents();
-        model.addAttribute("students", students);
+    public String showInsertStudentForm(@PageableDefault(size = 10) Pageable pageable, @RequestParam(value = "value", required = false) String name, @PathVariable("id") Integer id, Model model) {
+        if(name != null) {
+            model.addAttribute("key", name);
+            model.addAttribute("students", studentService.findAllStudentsByName(name, pageable));
+        } else {
+            model.addAttribute("students", studentService.findAllStudentsByName("", pageable));
+        }
         School school = service.getSchoolById(id);
         model.addAttribute("school", school);
         return "insert-student";
     }
 
-    @PostMapping("/{id}/insert-student")
-    public String insertStudent(@PathVariable("id") Integer id, @ModelAttribute Student student, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if(bindingResult.hasErrors()) {
-            return "redirect:/schools/" + id + "/insert-student";
-        }
-        if(student.getId() == null) {
+    @PostMapping("/{schoolId}/insert-student")
+    public String insertStudent(@PathVariable("schoolId") Integer schoolId, @RequestParam("studentId") Integer studentId, RedirectAttributes redirectAttributes) {
+        if(studentId == null) {
             redirectAttributes.addFlashAttribute("error", "Please select a student to insert!");
-            return "redirect:/schools/" + id + "/insert-student";
+            return "redirect:/schools/" + schoolId + "/insert-student";
         }
         try {
-            service.insertStudentToSchool(id, student.getId());
+            service.insertStudentToSchool(schoolId, studentId);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-            return "redirect:/schools/" + id + "/insert-student";
+            return "redirect:/schools/" + schoolId + "/insert-student";
         }
         redirectAttributes.addFlashAttribute("success", "Student inserted successfully!");
-        return "redirect:/schools/" + id + "/insert-student";
+        return "redirect:/schools/" + schoolId + "/insert-student";
     }
 
     @GetMapping("/{id}/remove-student")

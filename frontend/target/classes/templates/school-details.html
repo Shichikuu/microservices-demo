@@ -65,7 +65,7 @@
           <td>
             <a class="btn btn-danger btn-sm" th:href="@{/schools/{id}/remove-student(id=${school.id},studentId=${student.id})}"
                onclick="return confirm('Are you sure you want to delete this student record from the school?');">Remove</a>
-            <a class="btn btn-success btn-sm" th:href="@{/students/view/{id}(id=${student.id})}">View Details</a>
+            <a class="btn btn-success btn-sm" th:href="@{/learning/report(studentId=${student.id})}">View Details</a>
           </td>
         </tr>
         </tbody>

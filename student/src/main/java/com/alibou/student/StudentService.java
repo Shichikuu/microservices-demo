@@ -80,4 +80,11 @@ public class StudentService {
         return students;
     }
 
+    public Page<Student> findAllStudentsBySchool(Integer schoolId, Pageable pageable) {
+        return studentRepository.findAllBySchoolId(schoolId, pageable);
+    }
+
+    public Page<Student> findStudentsBySchoolAndName(Integer id, String name, Pageable pageable) {
+        return studentRepository.findAllBySchoolIdAndNameContainingIgnoreCase(id, name, pageable);
+    }
 }

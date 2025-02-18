@@ -1,5 +1,7 @@
 package com.alibou.school;
 
+import com.alibou.common.model.Classroom;
+import com.alibou.common.model.School;
 import com.alibou.common.model.Student;
 import com.alibou.school.client.StudentClient;
 import com.alibou.school.repository.ClassroomRepository;
@@ -22,7 +24,10 @@ public class StudentService {
         if(student.getClassroom() != null && student.getClassroom().getId().equals(classroomId)){
             throw new IllegalArgumentException("Student already in this classroom");
         }
-        student.setClassroom(classroomRepository.findById(classroomId).orElseThrow(() -> new IllegalArgumentException("Classroom not found")));
+        Classroom classroom = classroomRepository.findById(classroomId).orElseThrow(() -> new IllegalArgumentException("Classroom not found"));
+        student.setClassroom(Classroom.builder().id(classroomId).build());
+        School school = classroom.getSchool();
+        student.setSchool(School.builder().id(school.getId()).build());
         client.save(student);
     }
 
@@ -31,6 +36,8 @@ public class StudentService {
         if (student.getClassroom() == null || !student.getClassroom().getId().equals(classroomId)) {
             throw new IllegalArgumentException("Student not in this classroom");
         }
+        School school = student.getSchool();
+        student.setSchool(School.builder().id(school.getId()).build());
         student.setClassroom(null);
         client.save(student);
     }
@@ -41,7 +48,8 @@ public class StudentService {
         if(student.getSchool() != null && student.getSchool().getId().equals(schoolId)){
             throw new IllegalArgumentException("Student already in this school");
         }
-        student.setSchool(schoolRepository.findById(schoolId).orElseThrow(() -> new IllegalArgumentException("School not found")));
+        School school = schoolRepository.findById(schoolId).orElseThrow(() -> new IllegalArgumentException("School not found"));
+        student.setSchool(School.builder().id(schoolId).build());
         client.save(student);
     }
 

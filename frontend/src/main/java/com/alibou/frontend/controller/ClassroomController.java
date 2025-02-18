@@ -8,8 +8,11 @@ import com.alibou.common.model.Student;
 import com.alibou.common.model.Teacher;
 import com.alibou.frontend.service.ClassroomService;
 import com.alibou.frontend.service.SchoolService;
+import com.alibou.frontend.service.StudentService;
 import com.alibou.frontend.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +27,7 @@ public class ClassroomController {
     private final ClassroomService classroomService;
     private final TeacherService teacherService;
     private final SchoolService schoolService;
+    private final StudentService studentService;
 
     @GetMapping
     public String index(Model model) {
@@ -107,28 +111,33 @@ public class ClassroomController {
 //    }
 
     @GetMapping("/{id}/insert-student")
-    public String showInsertStudentForm(@PathVariable("id") Integer id, Model model) {
+    public String showInsertStudentForm(@PageableDefault(size = 10) Pageable pageable, @PathVariable("id") Integer id, Model model, @RequestParam(value = "value", required = false) String name) {
         Classroom classroom = classroomService.getClassroomById(id);
+        Integer schoolId = classroom.getSchool().getId();
+        if(name != null) {
+            model.addAttribute("key", name);
+            model.addAttribute("students", studentService.findStudentsBySchoolAndName(schoolId, name, pageable));
+        } else {
+            model.addAttribute("students", studentService.findStudentsBySchool(schoolId, pageable));
+        }
         model.addAttribute("classroom", classroom);
-        model.addAttribute("students", classroom.getSchool().getStudents());
-        model.addAttribute("student", new Student());
+//        model.addAttribute("student", new Student());
         return "insert-student";
     }
 
-    @PostMapping("/{id}/insert-student")
-    public String insertStudent(@PathVariable("id") Integer id, @ModelAttribute Student student, RedirectAttributes redirectAttributes) {
-        if(student.getId() == null) {
+    @PostMapping("/{classroomId}/insert-student")
+    public String insertStudent(@PathVariable("classroomId") Integer classroomId, @RequestParam Integer studentId, RedirectAttributes redirectAttributes) {
+        if(studentId == null) {
             redirectAttributes.addFlashAttribute("error", "Please select a student to assign!");
-            return "redirect:/classrooms/" + id + "/insert-student";
+            return "redirect:/classrooms/" + classroomId + "/insert-student";
         }
         try {
-            classroomService.insertStudentToClassroom(id, student.getId());
+            classroomService.insertStudentToClassroom(classroomId, studentId);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/classrooms/" + id + "/insert-student";
+            return "redirect:/classrooms/" + classroomId + "/insert-student";
         }
-        redirectAttributes.addFlashAttribute("success", "Student inserted successfully!");
-        return "redirect:/classrooms/view/" + id;
+        return "redirect:/classrooms/view/" + classroomId;
     }
 
     @GetMapping("/{id}/remove-student")

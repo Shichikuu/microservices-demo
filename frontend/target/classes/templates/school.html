@@ -14,30 +14,33 @@
 </section>
 
 <section layout:fragment="body-title">
-    School List
+    <div class="fw-bold">
+        School List
+    </div>
 </section>
 
 <section class="content" layout:fragment="body-content-main">
-    <a class="btn btn-success mb-3" th:href="@{/schools/new}">Add New School</a>
-    <form th:action="@{/schools}" method="get">
-        <div class="input-group input-group-sm mb-3" style="width: 250px;">
-            <input type="text" name="value" class="form-control pull-right"
-                   placeholder="Pencarian Berdasarkan Nama" th:if="${key} == null"/>
-            <input type="text" name="value" class="form-control pull-right"
-                   placeholder="Pencarian Berdasarkan Nama" th:if="${key} != null"
-                   th:value="${key}"/>
-            <div class="input-group-btn">
-                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+    <div class="d-flex justify-content-between">
+        <form th:action="@{/schools}" method="get">
+            <div class="input-group input-group-sm mb-3" style="width: 250px;">
+                <input type="text" name="value" class="form-control pull-right"
+                       placeholder="Search" th:if="${key} == null"/>
+                <input type="text" name="value" class="form-control pull-right"
+                       placeholder="Search" th:if="${key} != null"
+                       th:value="${key}"/>
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+        <a class="btn btn-success mb-3" th:href="@{/schools/new}">Add New School</a>
+    </div>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="id">Id</a></th>
-            <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="name">School Name</a></th>
-            <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="email">School Email</a></th>
-            <th>Actions</th>
+            <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="id">Id</a></th>
+            <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="name">School Name</a></th>
+            <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="email">School Email</a></th>
         </tr>
         </thead>
         <tbody>
@@ -54,18 +57,19 @@
         </tr>
         </tbody>
     </table>
-    <div th:if="${not #lists.isEmpty(schools.content)}">
-
-        <div sd:pagination-summary="">info</div>
-        <div class="text-center">
-            <nav>
-                <ul class="pagination" sd:pagination="full">
-                    <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-                    <li class="disabled"><a href="#" aria-label="Previous"><span
-                            aria-hidden="true">&laquo;</span></a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                </ul>
-            </nav>
+    <div th:if="${not #lists.isEmpty(schools.content)}" class="d-flex justify-content-center">
+        <div class="d-flex flex-column">
+            <div sd:pagination-summary="">info</div>
+            <div class="text-center d-flex justify-content-center">
+                <nav>
+                    <ul class="pagination" sd:pagination="full">
+                        <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                        <li class="disabled"><a href="#" aria-label="Previous"><span
+                                aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </section>

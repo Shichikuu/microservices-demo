@@ -27,4 +27,13 @@ public interface StudentClient {
 
     @GetMapping("/search")
     Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable);
+
+    @GetMapping("/schoolId={id}")
+    Page<Student> findStudentsBySchool(@PathVariable("id") Integer schoolId, Pageable pageable);
+
+    @GetMapping("/schoolId={id}/search")
+    Page<Student> findStudentsBySchoolAndName(@PathVariable("id") Integer schoolId, @RequestParam("name") String name, Pageable pageable);
+
+    @GetMapping("/{student-id}")
+    Student findStudentById(@PathVariable("student-id") Integer studentId);
 }

@@ -72,4 +72,14 @@ public class StudentController {
     public Page<Student> search(@RequestParam("name") String name, @PageableDefault(size = 10) Pageable pageable) {
         return service.findAllStudentsByName(name, pageable);
     }
+
+    @GetMapping("/schoolId={id}")
+    public Page<Student> findStudentsBySchool(@PathVariable("id") Integer id, Pageable pageable) {
+        return service.findAllStudentsBySchool(id, pageable);
+    }
+
+    @GetMapping("/schoolId={id}/search")
+    public Page<Student> findStudentsBySchoolAndName(@PathVariable("id") Integer id, @RequestParam("name") String name, Pageable pageable) {
+        return service.findStudentsBySchoolAndName(id, name, pageable);
+    }
 }

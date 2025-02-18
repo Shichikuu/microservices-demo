@@ -58,17 +58,14 @@
                     <td>
                         <a class="btn btn-danger btn-sm" th:href="@{/classrooms/{id}/remove-student(id=${classroom.id},studentId=${student.id})}"
                            onclick="return confirm('Are you sure you want to remove this student from this class?');">Remove</a>
-                        <a class="btn btn-success btn-sm" th:href="@{/students/view/{id}(id=${student.id})}">View Details</a>
+<!--                        <a class="btn btn-success btn-sm" th:href="@{/students/view/{id}(id=${student.id})}">View Details</a>-->
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
-
-
-    <a class="btn btn-secondary mt-3" th:href="@{/view/{id}(id=${classroom.schoolId})}">Back to List</a>
+    <a class="btn btn-secondary mt-3" th:href="@{/view/{id}(id=${classroom.school.id})}">Back to List</a>
 
 </section>
 

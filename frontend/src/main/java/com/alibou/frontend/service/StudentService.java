@@ -30,4 +30,16 @@ public class StudentService {
         Page<Student> students = studentClient.search(name, pageable);
         return students;
     }
+
+    public Page<Student> findStudentsBySchoolAndName(Integer schoolId, String name, Pageable pageable) {
+        return studentClient.findStudentsBySchoolAndName(schoolId, name, pageable);
+    }
+
+    public Page<Student> findStudentsBySchool(Integer schoolId, Pageable pageable) {
+        return studentClient.findStudentsBySchool(schoolId, pageable);
+    }
+
+    public Student findStudentById(Integer studentId) {
+        return studentClient.findStudentById(studentId);
+    }
 }

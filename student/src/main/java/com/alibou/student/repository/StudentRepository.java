@@ -11,4 +11,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     List<Student> findAllBySchoolId(Integer schoolId);
     List<Student> findAllByClassroomId(Integer classroomId);
     Page<Student> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
+    Page<Student> findAllBySchoolId(Integer id, Pageable pageable);
+    Page<Student> findAllBySchoolIdAndNameContainingIgnoreCase(Integer id, String name, Pageable pageable);
 }

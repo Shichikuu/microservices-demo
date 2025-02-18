@@ -31,6 +31,5 @@ public class Student {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
-    @JsonIdentityReference(alwaysAsId = true)
     private Classroom classroom;
 }

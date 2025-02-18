@@ -6,6 +6,7 @@ import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Classroom;
 import com.alibou.common.model.School;
+import com.alibou.common.model.Student;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
