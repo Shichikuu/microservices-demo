@@ -9,10 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -36,5 +34,22 @@ public class CourseController {
         Page<CourseScore> courseScores = courseService.findCourseScoresByStudentId(studentId, pageable);
         model.addAttribute("courseScores", courseScores);
         return "student-report";
+    }
+
+    @PostMapping("/update-student-data")
+    public String updateStudentData(@ModelAttribute Student student, RedirectAttributes redirectAttributes) {
+        if(student.getName() == null || student.getEmail() == null) {
+            redirectAttributes.addFlashAttribute("error", "Student data must not be empty");
+            return "redirect:/learning/report?studentId=" + student.getId();
+        }
+        try {
+            studentService.saveStudent(student);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            System.out.println(e.getMessage());
+            return "redirect:/learning/report?studentId=" + student.getId();
+        }
+        redirectAttributes.addFlashAttribute("success", "Student data is updated successfully");
+        return "redirect:/learning/report?studentId=" + student.getId();
     }
 }

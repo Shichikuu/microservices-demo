@@ -75,11 +75,18 @@
       <!--begin::Sidebar-->
       <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark" style="background-color:#0097da !important;">
         <!--begin::Sidebar Brand-->
-        <div class="sidebar-brand" style="background-color:#015581 !important;">
+        <div class="sidebar-brand" style="background-color:#015581 !important; border: 0;">
           <!--begin::Brand Link-->
-          <a class="brand-link">
+            <!--begin::Brand Image-->
+            <img
+              th:src="@{~/dist/assets/img/AdminLTEFullLogo.png}"
+              alt="AdminLTE Logo"
+              class="brand-image opacity-100"
+              style="height: 3vh;"
+            />
+            <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light"><b class="fw-bold">School</b>App</span>
+<!--            <span class="brand-text fw-light">SchoolApp</span>-->
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->

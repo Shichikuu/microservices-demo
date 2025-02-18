@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{_layouts/fixed-sidebar}">
 <head>
     <title layout:fragment="header-title">Student Report</title>
@@ -20,7 +20,10 @@
 <section class="content" layout:fragment="body-content-main">
 
     <div class="container mb-5">
-        <form th:action="@{/students}" th:object="${student}" method="post">
+        <form th:action="@{/learning/update-student-data}" th:object="${student}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{school.id}"/>
+            <input type="hidden" th:field="*{classroom.id}"/>
             <div class="form-group">
                 <label for="name">Student Name</label>
                 <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter student name" required/>
@@ -29,7 +32,9 @@
                 <label for="email">Student Email</label>
                 <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Enter student email" required/>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Edit Data</button>
+            <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
+            <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
+            <button type="submit" class="btn btn-orange mt-3">Edit Data</button>
         </form>
 
         <div class="box-tools mt-3">
@@ -47,15 +52,15 @@
                         </div>
                     </div>
                 </form>
-                <a class="btn btn-primary align-middle" th:href="@{/learning/insert-score(studentId=${student.id})}">Insert New Score</a>
+                <a class="btn btn-orange align-middle" th:href="@{/learning/insert-score(studentId=${student.id})}">Insert New Score</a>
             </div>
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover table-striped">
                 <thead>
                 <tr>
-                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:sort="date">Period</a></th>
-                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:sort="id">Course Code</a></th>
-                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:sort="name">Course</a></th>
-                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:sort="score">Score</a></th>
+                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="date">Period</a></th>
+                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="course.id">Course Code</a></th>
+                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="course.name">Course</a></th>
+                    <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="score">Score</a></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -68,7 +73,7 @@
 <!--                    <td>-->
 <!--                        <form id="insert-student-[[${student.id}]]" th:action="@{/schools/{schoolId}/insert-student(schoolId=${school.id})}" method="post">-->
 <!--                            <input type="hidden" name="studentId" th:value="*{student.id}"/>-->
-<!--                            <button class="btn btn-primary btn-sm"-->
+<!--                            <button class="btn btn-orange btn-sm"-->
 <!--                                    th:onclick="|return confirm('Are you sure you want to insert this student with the id ${student.id}?');|" th:text="Insert"></button>-->
 <!--                        </form>-->
 <!--                    </td>-->

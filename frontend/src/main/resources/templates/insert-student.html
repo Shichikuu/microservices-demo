@@ -50,7 +50,7 @@
           <td>
             <form id="insert-student-[[${student.id}]]" th:action="@{/schools/{schoolId}/insert-student(schoolId=${school.id})}" method="post">
               <input type="hidden" name="studentId" th:value="*{student.id}"/>
-              <button class="btn btn-primary btn-sm"
+              <button class="btn btn-orange btn-sm"
                       th:onclick="|return confirm('Are you sure you want to insert this student with the id ${student.id}?');|" th:text="Insert"></button>
             </form>
           </td>
@@ -108,7 +108,7 @@
           <td>
             <form id="insert-student-[[${student.id}]]" th:action="@{/classrooms/{classroomId}/insert-student(classroomId=${classroom.id})}" method="post">
               <input type="hidden" name="studentId" th:value="*{student.id}"/>
-              <button class="btn btn-primary btn-sm"
+              <button class="btn btn-orange btn-sm"
                  th:onclick="|return confirm('Are you sure you want to insert this student with the id ${student.id}?');|" th:text="Insert"></button>
             </form>
           </td>
@@ -144,7 +144,7 @@
 <!--          </option>-->
 <!--        </select>-->
 <!--      </div>-->
-<!--      <button type="submit" class="btn btn-primary" th:text="|Insert Student to ${classroom.name}|"></button>-->
+<!--      <button type="submit" class="btn btn-orange" th:text="|Insert Student to ${classroom.name}|"></button>-->
 <!--    </form>-->
     <a class="btn btn-secondary mt-3" th:href="@{/classrooms/view/{id}(id=${classroom.id})}">Back to List</a>
   </div>

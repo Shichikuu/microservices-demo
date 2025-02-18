@@ -37,7 +37,7 @@
         <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
         <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
       </div>
-      <button type="submit" class="btn btn-primary">Assign Student to School</button>
+      <button type="submit" class="btn btn-orange">Assign Student to School</button>
     </form>
     <a class="btn btn-secondary mt-3" th:href="@{/students}">Back to List</a>
   </div>
@@ -60,7 +60,7 @@
         <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
         <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
       </div>
-      <button type="submit" class="btn btn-primary">Assign Student to Class</button>
+      <button type="submit" class="btn btn-orange">Assign Student to Class</button>
     </form>
     <a class="btn btn-secondary mt-3" th:href="@{/classrooms/view/{id}(id=${classroom.id})}">Back to List</a>
   </div>
