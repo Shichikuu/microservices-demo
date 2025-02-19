@@ -40,4 +40,9 @@ public class CourseController {
     public Page<CourseScore> findCourseScoresByStudentIdAndCourseName(@PathVariable("student-id") Integer studentId, Pageable pageable, @PathVariable("course-name") String courseName){
         return service.findCourseScoresByStudentIdAndCourseName(studentId, pageable, courseName);
     }
+
+    @PostMapping("/insert-score")
+    public void saveCourseScore(@RequestBody CourseScore courseScore) {
+        service.saveCourseScore(courseScore);
+    }
 }

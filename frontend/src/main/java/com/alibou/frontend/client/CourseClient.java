@@ -7,8 +7,13 @@ import com.alibou.common.model.CourseScore;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 
 @FeignClient(
@@ -25,4 +30,10 @@ public interface CourseClient {
 
     @GetMapping("/studentId={student-id}/courseName={course-name}")
     Page<CourseScore> findCourseScoresByStudentIdAndCourseName(@PathVariable("student-id") Integer studentId, Pageable pageable, @PathVariable("course-name") String courseName);
+
+    @GetMapping
+    public List<Course> findAllCourses();
+
+    @PostMapping("/insert-score")
+    public void saveCourseScore(@RequestBody CourseScore courseScore);
 }
