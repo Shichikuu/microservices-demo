@@ -184,4 +184,12 @@ public class SchoolService {
         System.out.println(students);
         return students.map(student -> getStudentFullResponse(student.getId()));
     }
+
+    public void removeTeacherFromAllClasses(Integer teacherId) {
+        List<Classroom> classrooms = classroomRepository.findAllByTeacher_Id(teacherId);
+        for (Classroom classroom : classrooms) {
+            classroom.setTeacher(null);
+            classroomRepository.save(classroom);
+        }
+    }
 }

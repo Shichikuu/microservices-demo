@@ -60,4 +60,7 @@ public interface SchoolClient {
 
     @GetMapping("/search-students")
     public Page<StudentFullResponse> searchStudents(@RequestParam("name") String name, Pageable pageable);
+
+    @PostMapping("/remove-teacher-from-classes")
+    void removeTeacherFromAllClasses(@RequestParam Integer teacherId);
 }

@@ -3,6 +3,7 @@ package com.alibou.frontend.service;
 import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Student;
 import com.alibou.frontend.client.SchoolClient;
+import com.alibou.frontend.client.SchoolStudentClient;
 import com.alibou.frontend.client.StudentClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ public class StudentService {
 
     private final SchoolClient schoolClient;
     private final StudentClient studentClient;
+    private final SchoolStudentClient ssc;
 
     public List<StudentFullResponse> getAllStudents() {
         return schoolClient.getAllFullStudentResponse();
@@ -41,5 +43,13 @@ public class StudentService {
 
     public Student findStudentById(Integer studentId) {
         return studentClient.findStudentById(studentId);
+    }
+
+    public void deleteStudent(Integer id) {
+        Student student = studentClient.findStudentById(id);
+        if(student.getSchool() != null){
+            ssc.removeStudentFromSchool(student.getSchool().getId(), id);
+        }
+        studentClient.deleteStudent(id);
     }
 }

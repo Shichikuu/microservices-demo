@@ -2,13 +2,18 @@ package com.alibou.frontend.controller;
 
 import com.alibou.common.dto.StudentFullResponse;
 import com.alibou.common.model.Student;
+import com.alibou.common.model.Teacher;
 import com.alibou.frontend.service.SchoolService;
 import com.alibou.common.dto.FullSchoolResponse;
 import com.alibou.common.model.School;
 import com.alibou.frontend.service.StudentService;
+import com.alibou.frontend.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
@@ -26,6 +31,7 @@ public class SchoolController {
 
     private final SchoolService service;
     private final StudentService studentService;
+    private final TeacherService teacherService;
 
     @GetMapping
     public String getAllSchools(@PageableDefault(size = 10) Pageable pageable, Model model, @RequestParam(value = "value", required = false) String name){
@@ -77,8 +83,16 @@ public class SchoolController {
     }
 
     @GetMapping("/view/{id}")
-    public String viewSchoolDetails(@PathVariable("id") Integer id, Model model){
+    public String viewSchoolDetails(@PathVariable("id") Integer id,
+                                    @Qualifier("studentPageable") @PageableDefault Pageable studentPageable, @Qualifier("teacherPageable") @PageableDefault Pageable teacherPageable,
+                                    Model model){
         School school = service.getSchoolById(id);
+        Page<Student> studentPageObj = studentService.findStudentsBySchool(id, studentPageable);
+        Page<Teacher> teacherPageObj = teacherService.findAllTeachersBySchool(id, teacherPageable);
+
+        model.addAttribute("students", studentPageObj);
+        model.addAttribute("teachers", teacherPageObj);
+
         model.addAttribute("school", school);
         return "school-details";
     }
@@ -114,11 +128,12 @@ public class SchoolController {
     }
 
     @GetMapping("/{id}/remove-student")
-    public String showRemoveStudentForm(@PathVariable("id") Integer id, @RequestParam("studentId") Integer studentId) {
+    public String removeStudentFromSchool(@PathVariable("id") Integer id, @RequestParam("studentId") Integer studentId, RedirectAttributes redirectAttributes) {
         if(studentId == null) {
             return "redirect:/schools/view/" + id;
         }
         service.removeStudentFromSchool(id, studentId);
+        redirectAttributes.addFlashAttribute("studentSuccess", "Student removed successfully!");
         return "redirect:/schools/view/" + id;
     }
 

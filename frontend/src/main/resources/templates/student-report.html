@@ -14,7 +14,7 @@
 </section>
 
 <section layout:fragment="body-title">
-    <a th:text="|${student.name} Report|"></a>
+    <h3 th:text="|${student.name} Report|"></h3>
 </section>
 
 <section class="content" layout:fragment="body-content-main">
@@ -22,8 +22,8 @@
     <div class="container mb-5">
         <form th:action="@{/learning/update-student-data}" th:object="${student}" method="post">
             <input type="hidden" th:field="*{id}"/>
-            <input type="hidden" th:field="*{school.id}"/>
-            <input type="hidden" th:field="*{classroom.id}"/>
+            <input th:if="*{school} != null" type="hidden" th:field="*{school.id}"/>
+            <input th:if="*{classroom} != null" type="hidden" th:field="*{classroom.id}"/>
             <div class="form-group">
                 <label for="name">Student Name</label>
                 <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter student name" required/>
@@ -70,13 +70,11 @@
                     <td th:text="${score.course.id}"></td>
                     <td th:text="${score.course.name}"></td>
                     <td th:text="${score.score}"></td>
-<!--                    <td>-->
-<!--                        <form id="insert-student-[[${student.id}]]" th:action="@{/schools/{schoolId}/insert-student(schoolId=${school.id})}" method="post">-->
-<!--                            <input type="hidden" name="studentId" th:value="*{student.id}"/>-->
-<!--                            <button class="btn btn-orange btn-sm"-->
-<!--                                    th:onclick="|return confirm('Are you sure you want to insert this student with the id ${student.id}?');|" th:text="Insert"></button>-->
-<!--                        </form>-->
-<!--                    </td>-->
+                    <td>
+                        <a class="btn btn-danger btn-sm" th:href="@{/learning/delete-score(courseScoreId=${score.id}, studentId=${student.id})}"
+                           onclick="return confirm('Are you sure you want to delete this score?');">Delete</a>
+                        <a class="btn btn-success btn-sm" th:href="@{/learning/update-score(courseScoreId=${score.id})}">Update</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -96,7 +94,8 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-            <a class="btn btn-secondary mt-3" th:href="@{/schools/view/{id}(id=${student.school.id})}">Back to List</a>
+            <a class="btn btn-secondary mt-3" th:if="${student.school} != null" th:href="@{/schools/view/{id}(id=${student.school.id})}">Back to List</a>
+            <a class="btn btn-secondary mt-3" th:if="${student.school} == null" th:href="@{/students}">Back to List</a>
         </div>
     </div>
 

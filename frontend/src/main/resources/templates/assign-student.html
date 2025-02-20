@@ -14,7 +14,7 @@
 </section>
 
 <section layout:fragment="body-title">
-  <a th:text="${#lists.isEmpty(student.schoolId) ? 'Assign Student to a School' : 'Assign Student to a Classroom'}"></a>
+  <h3 th:text="${#lists.isEmpty(student.schoolId) ? 'Assign Student to a School' : 'Assign Student to a Classroom'}"></h3>
 </section>
 
 <section class="content" layout:fragment="body-content-main">

@@ -93,4 +93,50 @@ public class CourseController {
         redirectAttributes.addFlashAttribute("insertSuccess", "Score inserted successfully");
         return "redirect:/learning/report?studentId=" + courseScore.getStudent().getId();
     }
+
+    @GetMapping("/update-score")
+    public String showUpdateScoreForm(Model model, @RequestParam Integer courseScoreId) {
+        if(!model.containsAttribute("courseScore")) {
+            CourseScore courseScore = courseService.findCourseScoreById(courseScoreId);
+            if(courseScoreId == null || courseScore == null) {
+                return "redirect:/";
+            }
+            model.addAttribute("courseScore", courseScore);
+        }
+        return "insert-score";
+
+    }
+
+    @PostMapping("/update-score")
+    public String updateScore(@ModelAttribute CourseScore courseScore, RedirectAttributes redirectAttributes){
+        if(courseScore.getScore() == null){
+            redirectAttributes.addFlashAttribute("scoreError", "Score must not be empty");
+            redirectAttributes.addFlashAttribute("courseScore", courseScore);
+            return "redirect:/learning/update-score?courseScoreId=" + courseScore.getId();
+        }else if(courseScore.getScore() < 0 || courseScore.getScore() > 100){
+            redirectAttributes.addFlashAttribute("scoreError", "Score must be between 0 and 100");
+            redirectAttributes.addFlashAttribute("courseScore", courseScore);
+            return "redirect:/learning/update-score?courseScoreId=" + courseScore.getId();
+        }
+
+        try {
+            courseService.saveCourseScore(courseScore);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("scoreError", e.getMessage());return "redirect:/learning/update-score?courseScoreId=" + courseScore.getId();
+        }
+        redirectAttributes.addFlashAttribute("insertSuccess", "Score updated successfully");
+        return "redirect:/learning/report?studentId=" + courseScore.getStudent().getId();
+    }
+
+    @GetMapping("/delete-score")
+    public String deleteScore(@RequestParam Integer courseScoreId, @RequestParam Integer studentId, RedirectAttributes redirectAttributes) {
+        try {
+            courseService.deleteCourseScore(courseScoreId);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/learning/report?studentId=" + studentId;
+        }
+        redirectAttributes.addFlashAttribute("success", "Score deleted successfully");
+        return "redirect:/learning/report?studentId=" + studentId;
+    }
 }

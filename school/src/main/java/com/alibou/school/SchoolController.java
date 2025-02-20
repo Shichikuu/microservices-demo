@@ -114,6 +114,9 @@ public class SchoolController {
         return service.searchStudents(name, pageable);
     }
 
-
+    @PostMapping("/remove-teacher-from-classes")
+    void removeTeacherFromAllClasses(@RequestParam Integer teacherId) {
+        service.removeTeacherFromAllClasses(teacherId);
+    }
 
 }

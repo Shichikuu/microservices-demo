@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.util.Date;
@@ -35,6 +37,8 @@ public class CourseScore {
     @JoinColumn(name = "student_id")
     private Student student;
 //    private Integer studentId;
+    @Min(value = 0, message = "Score must be at least 0")
+    @Max(value = 100, message = "Score must be at most 100")
     private Integer score;
 
     private Integer year;

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{_layouts/fixed-sidebar}">
+<head>
+  <title layout:fragment="header-title">Insert Teacher to School</title>
+</head>
+<body>
+<section layout:fragment="body-content-breadcrumb">
+  <ol class="breadcrumb float-sm-end">
+    <li class="breadcrumb-item active">Insert Teacher</li>
+  </ol>
+</section>
+
+<section layout:fragment="body-title">
+  <h3>Add New Teacher To School</h3>
+</section>
+
+<section class="content" layout:fragment="body-content-main">
+
+  <div class="container mb-5">
+    <div class="box-tools">
+      <form th:action="@{/schools/{id}/insert-teacher(id=${schoolId})}" method="get">
+        <div class="input-group input-group-sm mb-3" style="width: 250px;">
+          <input type="text" name="value" class="form-control pull-right"
+                 placeholder="Search" th:if="${key} == null"/>
+          <input type="text" name="value" class="form-control pull-right"
+                 placeholder="Search" th:if="${key} != null"
+                 th:value="${key}"/>
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="id">Id</a></th>
+          <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="name">Name</a></th>
+          <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="email">Email</a></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="teacher : ${teachers}">
+          <td th:text="${teacher.id}"></td>
+          <td th:text="${teacher.name}"></td>
+          <td th:text="${teacher.email}"></td>
+          <td>
+            <form id="insert-teacher" th:action="@{/teachers/insert-teacher(schoolId=${schoolId})}" method="post">
+              <input type="hidden" name="teacherId" th:value="*{teacher.id}"/>
+              <button class="btn btn-orange btn-sm"
+                      th:onclick="|return confirm('Are you sure you want to add this teacher with the id ${teacher.id}?');|" th:text="Add"></button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
+      <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
+      <div th:if="${not #lists.isEmpty(teachers.content)}" class="d-flex justify-content-center">
+        <div class="d-flex flex-column">
+          <div sd:pagination-summary="" class="d-flex justify-content-center">info</div>
+          <div class="text-center d-flex">
+            <nav>
+              <ul class="pagination" sd:pagination="full">
+                <li class="disabled"><a href="#" aria-label="Previous"><span
+                        aria-hidden="true">&laquo;</span></a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <a class="btn btn-secondary mt-3" th:href="@{/schools/view/{id}(id=${schoolId})}">Back to List</a>
+    </div>
+  </div>
+
+</section>
+
+<section layout:fragment="body_scripts" th:remove="tag">
+</section>
+</body>
+</html>

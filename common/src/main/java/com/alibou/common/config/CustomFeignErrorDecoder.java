@@ -34,6 +34,10 @@ public class CustomFeignErrorDecoder implements ErrorDecoder {
                 return new IllegalArgumentException("Student already in this school");
             }
 
+            if(methodKey.contains("insertTeacherToSchool")){
+                return new IllegalArgumentException("Teacher already in this school");
+            }
+
         } catch (IOException e) {
             // Log error if needed and fall back to default decoder
         }

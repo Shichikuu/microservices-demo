@@ -50,6 +50,7 @@ public class StudentService {
         }
         School school = schoolRepository.findById(schoolId).orElseThrow(() -> new IllegalArgumentException("School not found"));
         student.setSchool(School.builder().id(schoolId).build());
+        student.setClassroom(null);
         client.save(student);
     }
 

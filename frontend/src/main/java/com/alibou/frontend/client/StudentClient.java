@@ -36,4 +36,7 @@ public interface StudentClient {
 
     @GetMapping("/{student-id}")
     Student findStudentById(@PathVariable("student-id") Integer studentId);
+
+    @PostMapping("/delete")
+    void deleteStudent(@RequestParam Integer id);
 }

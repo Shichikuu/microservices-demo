@@ -36,4 +36,10 @@ public interface CourseClient {
 
     @PostMapping("/insert-score")
     public void saveCourseScore(@RequestBody CourseScore courseScore);
+
+    @GetMapping("/score/{courseScoreId}")
+    public CourseScore findCourseScoreById(@PathVariable("courseScoreId") Integer courseScoreId);
+
+    @GetMapping("/delete-score/{courseScoreId}")
+    void deleteCourseScore(@PathVariable Integer courseScoreId);
 }

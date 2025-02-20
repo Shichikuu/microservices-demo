@@ -87,4 +87,8 @@ public class StudentService {
     public Page<Student> findStudentsBySchoolAndName(Integer id, String name, Pageable pageable) {
         return studentRepository.findAllBySchoolIdAndNameContainingIgnoreCase(id, name, pageable);
     }
+
+    public void deleteStudent(Integer id) {
+        studentRepository.deleteById(id);
+    }
 }

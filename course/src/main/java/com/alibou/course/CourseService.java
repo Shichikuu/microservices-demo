@@ -67,4 +67,12 @@ public class CourseService {
     public void updateCourseScore(CourseScore courseScore) {
         courseScoreRepository.save(courseScore);
     }
+
+    public CourseScore findCourseScoreById(Integer courseScoreId) {
+        return courseScoreRepository.findById(courseScoreId).orElse(null);
+    }
+
+    public void deleteCourseScore(Integer courseScoreId) {
+        courseScoreRepository.deleteById(courseScoreId);
+    }
 }

@@ -49,11 +49,12 @@ public class ClassroomController {
     }
 
     @PostMapping
-    public String createClassroom(@ModelAttribute Classroom classroom) {
+    public String createClassroom(@ModelAttribute Classroom classroom, RedirectAttributes redirectAttributes) {
         School school = schoolService.getSchoolById(classroom.getSchool().getId());
         classroom.setSchool(school);
         classroomService.saveClassroom(classroom);
-        return "redirect:/view/" + classroom.getSchool().getId();
+        redirectAttributes.addFlashAttribute("classroomSuccess", "Classroom created successfully!");
+        return "redirect:/schools/view/" + classroom.getSchool().getId();
     }
 
 
@@ -74,9 +75,10 @@ public class ClassroomController {
     }
 
     @GetMapping("/delete")
-    public String deleteClassroom(@RequestParam("classroomId") Integer classroomId, @RequestParam("schoolId") Integer schoolId) {
+    public String deleteClassroom(@RequestParam("classroomId") Integer classroomId, @RequestParam("schoolId") Integer schoolId, RedirectAttributes redirectAttributes) {
         classroomService.deleteClassroom(classroomId);
-        return "redirect:/view/" + schoolId;
+        redirectAttributes.addFlashAttribute("classroomSuccess", "Classroom deleted successfully!");
+        return "redirect:/schools/view/" + schoolId;
     }
 
     @PostMapping("/assign-teacher")
@@ -141,11 +143,12 @@ public class ClassroomController {
     }
 
     @GetMapping("/{id}/remove-student")
-    public String showRemoveStudentForm(@PathVariable("id") Integer id, @RequestParam("studentId") Integer studentId) {
+    public String showRemoveStudentForm(@PathVariable("id") Integer id, @RequestParam("studentId") Integer studentId, RedirectAttributes redirectAttributes) {
         if(studentId == null) {
             return "redirect:/classrooms/view/" + id;
         }
         classroomService.removeStudentFromClassroom(id, studentId);
+        redirectAttributes.addFlashAttribute("studentSuccess", "Student removed successfully!");
         return "redirect:/classrooms/view/" + id;
 
     }

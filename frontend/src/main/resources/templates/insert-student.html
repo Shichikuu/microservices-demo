@@ -14,7 +14,7 @@
 </section>
 
 <section layout:fragment="body-title">
-  <a th:text="${classroom != null} ? 'Insert Student to ' + ${classroom.name} : (${school != null} ? 'Insert Student to ' + ${school.name} : '')"></a>
+  <h3 th:text="${classroom != null} ? 'Insert Student to ' + ${classroom.name} : (${school != null} ? 'Insert Student to ' + ${school.name} : '')"></h3>
 </section>
 
 <section class="content" layout:fragment="body-content-main">

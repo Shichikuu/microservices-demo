@@ -31,6 +31,11 @@ public class CourseController {
         return ResponseEntity.ok(service.findCourseById(courseId));
     }
 
+    @GetMapping("/score/{courseScoreId}")
+    public ResponseEntity<CourseScore> findCourseScoreById(@PathVariable("courseScoreId") Integer courseScoreId) {
+        return ResponseEntity.ok(service.findCourseScoreById(courseScoreId));
+    }
+
     @GetMapping("/studentId={student-id}")
     public Page<CourseScore> findCourseScoresByStudentId(@PathVariable("student-id") Integer studentId, Pageable pageable){
         return service.findCourseScoresByStudentId(studentId, pageable);
@@ -44,5 +49,10 @@ public class CourseController {
     @PostMapping("/insert-score")
     public void saveCourseScore(@RequestBody CourseScore courseScore) {
         service.saveCourseScore(courseScore);
+    }
+
+    @GetMapping("/delete-score/{courseScoreId}")
+    public void deleteCourseScore(@PathVariable("courseScoreId") Integer courseScoreId) {
+        service.deleteCourseScore(courseScoreId);
     }
 }

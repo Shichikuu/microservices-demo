@@ -8,4 +8,6 @@ import java.util.List;
 public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     public List<Classroom> findAllBySchoolId(Integer schoolId);
     public void deleteAllBySchoolId(Integer schoolId);
+
+    public List<Classroom> findAllByTeacher_Id(Integer teacherId);
 }

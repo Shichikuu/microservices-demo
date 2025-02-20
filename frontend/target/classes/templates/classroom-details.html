@@ -14,7 +14,7 @@
 </section>
 
 <section layout:fragment="body-title">
-    <a th:text="${classroom.name}"></a>
+    <h3 th:text="${classroom.name}"></h3>
 </section>
 
 <section class="content" layout:fragment="body-content-main">
@@ -63,9 +63,12 @@
                 </tr>
                 </tbody>
             </table>
+            <div th:if="${studentError}" th:text="${studentError}" class="text-danger mt-2"></div>
+            <div th:if="${studentSuccess}" th:text="${studentSuccess}" class="text-success mt-2">
         </div>
+            <a class="btn btn-secondary mt-3" th:href="@{/view/{id}(id=${classroom.school.id})}">Back to List</a>
     </div>
-    <a class="btn btn-secondary mt-3" th:href="@{/view/{id}(id=${classroom.school.id})}">Back to List</a>
+
 
 </section>
 

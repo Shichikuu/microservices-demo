@@ -13,7 +13,7 @@
 </section>
 
 <section layout:fragment="body-title">
-  <h1 th:text="${#lists.isEmpty(student.id) ? 'Add New Student' : 'Edit Student'}"></h1>
+  <h3 th:text="${#lists.isEmpty(student.id) ? 'Add New Student' : 'Edit Student'}"></h3>
 </section>
 
 <section class="content" layout:fragment="body-content-main">

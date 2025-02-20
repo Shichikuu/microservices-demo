@@ -30,4 +30,12 @@ public class CourseService {
     public void saveCourseScore(CourseScore courseScore) {
         courseClient.saveCourseScore(courseScore);
     }
+
+    public CourseScore findCourseScoreById(Integer courseScoreId) {
+        return courseClient.findCourseScoreById(courseScoreId);
+    }
+
+    public void deleteCourseScore(Integer courseScoreId) {
+        courseClient.deleteCourseScore(courseScoreId);
+    }
 }

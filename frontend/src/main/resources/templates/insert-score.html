@@ -3,22 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{_layouts/fixed-sidebar}">
 <head>
-    <title layout:fragment="header-title">Insert Score</title>
+    <title layout:fragment="header-title" th:text="${#lists.isEmpty(courseScore.id) ? 'Insert Score' : 'Update Score'}"></title>
 </head>
 <body>
 <section layout:fragment="body-content-breadcrumb">
     <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item active">Insert Score</li>
+        <li class="breadcrumb-item active" th:text="${#lists.isEmpty(courseScore.id) ? 'Insert Score' : 'Update Score'}"></li>
     </ol>
 </section>
 
 <section layout:fragment="body-title">
-    <h2>Insert Score</h2>
+    <h3 th:text="${#lists.isEmpty(courseScore.id) ? 'Insert Score' : 'Update Score'}"></h3>
 </section>
 
 <section class="content" layout:fragment="body-content-main">
     <div class="container mb-5">
-        <form th:action="@{/learning/insert-score}" th:object="${courseScore}" method="post">
+        <!-- Insert Form (when courseScore.id is null) -->
+        <form th:if="${courseScore.id} == null" th:action="@{/learning/insert-score}" th:object="${courseScore}" method="post">
             <input type="hidden" th:field="*{student.id}"/>
             <!-- Course DDL -->
             <div class="mb-3">
@@ -57,13 +58,32 @@
             <!-- Score Input -->
             <div class="mb-3">
                 <label for="score" class="form-label">Score</label>
-                <input type="number" id="score" th:field="*{score}" class="form-control" placeholder="Enter score" required/>
+                <input type="number" id="score" th:field="*{score}" class="form-control" placeholder="Enter score" required min="0" max="100"/>
                 <div th:if="${scoreError}" th:text="${scoreError}" class="text-danger mt-2"></div>
+<!--                <div th:if="${#fields.hasErrors('score')}" th:errors="*{score}" class="text-danger mt-2"></div>-->
+
+            </div>
+            <button type="submit" class="btn btn-orange">Insert Score</button>
+        </form>
+
+        <!-- Update Form -->
+        <form th:if="${courseScore.id} != null" th:action="@{/learning/update-score}" th:object="${courseScore}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{year}"/>
+            <input type="hidden" th:field="*{semester}"/>
+            <input type="hidden" th:field="*{course.id}"/>
+            <input type="hidden" th:field="*{student.id}"/>
+            <!-- Score Input -->
+            <div class="mb-3">
+                <label for="score" class="form-label">Score</label>
+                <input type="number" id="score" th:field="*{score}" class="form-control" placeholder="Enter score" required min="0" max="100"/>
+                <div th:if="${scoreError}" th:text="${scoreError}" class="text-danger mt-2"></div>
+<!--                <div th:if="${#fields.hasErrors('score')}" th:errors="*{score}" class="text-danger mt-2"></div>-->
             </div>
             <button type="submit" class="btn btn-orange">Insert Score</button>
         </form>
     </div>
-    <a class="btn btn-secondary mt-3" th:href="@{/learning/report(studentId=${student.id})}">Back</a>
+    <a class="btn btn-secondary mt-3" th:href="@{/learning/report(studentId=${courseScore.student.id})}">Back</a>
 </section>
 
 <section layout:fragment="body_scripts" th:remove="tag">

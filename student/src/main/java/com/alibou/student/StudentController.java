@@ -32,6 +32,11 @@ public class StudentController {
         return ResponseEntity.ok(service.findAllStudents());
     }
 
+    @PostMapping("/delete")
+    public void deleteStudent(@RequestParam Integer id) {
+        service.deleteStudent(id);
+    }
+
     @GetMapping("/{student-id}")
     public ResponseEntity<Student> findStudentById(@PathVariable("student-id") Integer studentId) {
         return ResponseEntity.ok(service.findStudentById(studentId));
