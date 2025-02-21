@@ -8,6 +8,7 @@ import com.alibou.frontend.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,53 @@ public class CourseController {
 
     private final CourseService courseService;
     private final StudentService studentService;
+
+    @GetMapping("/courses")
+    public String index(Model model, @PageableDefault Pageable pageable, @RequestParam(value = "value", required = false) String name) {
+        if (name != null) {
+            model.addAttribute("key", name);
+            Page<Course> courses = courseService.findCourses(name, pageable);
+            model.addAttribute("courses", courses);
+        } else {
+            Page<Course> courses = courseService.findCourses("", pageable);
+            model.addAttribute("courses", courses);
+        }
+        return "course";
+    }
+
+    @GetMapping("/create-course")
+    public String showCreateForm(Model model) {
+        model.addAttribute("course", new Course());
+        return "course-form";
+    }
+
+    @PostMapping("/create-course")
+    public String createCourse(@ModelAttribute Course course, RedirectAttributes redirectAttributes) {
+        if(course.getName() == null || course.getName().isEmpty() || course.getName().isBlank()) {
+            redirectAttributes.addFlashAttribute("error", "Course name must not be empty");
+            return "redirect:/learning/create";
+        }
+        try {
+            courseService.saveCourse(course);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/learning/create";
+        }
+        redirectAttributes.addFlashAttribute("success", "Course created successfully");
+        return "redirect:/learning/courses";
+    }
+
+    @GetMapping("/courses/delete")
+    public String deleteCourse(@RequestParam Integer courseId, RedirectAttributes redirectAttributes) {
+        try {
+            courseService.deleteCourse(courseId);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/learning/courses";
+        }
+        redirectAttributes.addFlashAttribute("success", "Course deleted successfully");
+        return "redirect:/learning/courses";
+    }
 
     @GetMapping("/report")
     public String getStudentReport(@RequestParam Integer studentId, Model model, Pageable pageable, @RequestParam(value = "value", required = false) String courseName) {

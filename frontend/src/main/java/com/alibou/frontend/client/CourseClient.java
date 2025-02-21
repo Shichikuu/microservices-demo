@@ -1,17 +1,12 @@
 package com.alibou.frontend.client;
 
-import com.alibou.common.config.CustomFeignErrorDecoder;
 import com.alibou.common.config.FeignConfig;
 import com.alibou.common.model.Course;
 import com.alibou.common.model.CourseScore;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +19,9 @@ import java.util.List;
 public interface CourseClient {
     @GetMapping("/courseId={course-id}")
     Course findCourseById(@PathVariable("course-id") Integer courseId);
+
+    @GetMapping("/find")
+    Page<Course> findCourses(@RequestParam("name") String name, Pageable pageable);
 
     @GetMapping("/studentId={student-id}")
     Page<CourseScore> findCourseScoresByStudentId(@PathVariable("student-id") Integer studentId, Pageable pageable);
@@ -42,4 +40,10 @@ public interface CourseClient {
 
     @GetMapping("/delete-score/{courseScoreId}")
     void deleteCourseScore(@PathVariable Integer courseScoreId);
+
+    @PostMapping
+    void saveCourse(Course course);
+
+    @GetMapping("/delete")
+    void deleteCourse(@RequestParam Integer courseId);
 }

@@ -38,4 +38,16 @@ public class CourseService {
     public void deleteCourseScore(Integer courseScoreId) {
         courseClient.deleteCourseScore(courseScoreId);
     }
+
+    public Page<Course> findCourses(String name, Pageable pageable) {
+        return courseClient.findCourses(name, pageable);
+    }
+
+    public void saveCourse(Course course) {
+        courseClient.saveCourse(course);
+    }
+
+    public void deleteCourse(Integer courseId) {
+        courseClient.deleteCourse(courseId);
+    }
 }

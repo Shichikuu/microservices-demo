@@ -12,4 +12,6 @@ public interface CourseScoreRepository extends JpaRepository<CourseScore, Intege
     Page<CourseScore> findByStudent_IdAndCourse_NameContainingIgnoreCase(Integer studentId, String courseName, Pageable pageable);
 
     List<CourseScore> findByStudent_IdAndCourse_IdAndYearAndSemester(Integer id, Integer courseId, Integer year, String semester);
+
+    List<CourseScore> findByCourse_Id(Integer courseId);
 }

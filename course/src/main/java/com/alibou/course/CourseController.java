@@ -25,6 +25,10 @@ public class CourseController {
     public ResponseEntity<List<Course>> findAllCourses() {
         return ResponseEntity.ok(service.findAllCourses());
     }
+    @GetMapping("/find")
+    public Page<Course> findCourses(@RequestParam("name") String name, Pageable pageable) {
+        return service.findCourses(name, pageable);
+    }
 
     @GetMapping("/courseId={course-id}")
     public ResponseEntity<Course> findCourseById(@PathVariable("course-id") Integer courseId) {
@@ -54,5 +58,10 @@ public class CourseController {
     @GetMapping("/delete-score/{courseScoreId}")
     public void deleteCourseScore(@PathVariable("courseScoreId") Integer courseScoreId) {
         service.deleteCourseScore(courseScoreId);
+    }
+
+    @GetMapping("/delete")
+    void deleteCourse(@RequestParam Integer courseId){
+        service.deleteCourse(courseId);
     }
 }

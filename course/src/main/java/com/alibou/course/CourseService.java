@@ -75,4 +75,14 @@ public class CourseService {
     public void deleteCourseScore(Integer courseScoreId) {
         courseScoreRepository.deleteById(courseScoreId);
     }
+
+    public Page<Course> findCourses(String name, Pageable pageable) {
+        return courseRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
+    public void deleteCourse(Integer courseId) {
+        List<CourseScore> courseScores = courseScoreRepository.findByCourse_Id(courseId);
+        courseScores.forEach(courseScore -> courseScoreRepository.deleteById(courseScore.getId()));
+        courseRepository.deleteById(courseId);
+    }
 }
