@@ -19,7 +19,7 @@
 
 <section class="content" layout:fragment="body-content-main">
 
-  <div th:if="${school != null}"  class="container mb-5">
+  <div th:if="${school != null}">
     <div class="box-tools">
       <form th:action="@{/schools/{id}/insert-student(id=${school.id})}" method="get">
         <div class="input-group input-group-sm mb-3" style="width: 250px;">
@@ -77,7 +77,7 @@
   </div>
   </div>
 
-  <div th:if="${classroom != null}"  class="container mb-5">
+  <div th:if="${classroom != null}">
     <div class="box-tools">
       <form th:action="@{/classrooms/{id}/insert-student(id=${classroom.id})}" method="get">
         <div class="input-group input-group-sm mb-3" style="width: 250px;">

@@ -19,7 +19,6 @@
 
 <section class="content" layout:fragment="body-content-main">
 
-  <div class="container mb-5">
     <form th:action="@{/teachers/update-teacher}" th:object="${teacher}" method="post">
       <input type="hidden" th:field="*{id}"/>
       <input th:if="${teacher.school} != null" type="hidden" th:field="*{school.id}"/>

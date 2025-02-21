@@ -17,7 +17,6 @@
 </section>
 
 <section class="content" layout:fragment="body-content-main">
-    <div class="container mb-5">
         <!-- Insert Form (when courseScore.id is null) -->
         <form th:if="${courseScore.id} == null" th:action="@{/learning/insert-score}" th:object="${courseScore}" method="post">
             <input type="hidden" th:field="*{student.id}"/>
@@ -82,7 +81,6 @@
             </div>
             <button type="submit" class="btn btn-orange">Insert Score</button>
         </form>
-    </div>
     <a class="btn btn-secondary mt-3" th:href="@{/learning/report(studentId=${courseScore.student.id})}">Back</a>
 </section>
 

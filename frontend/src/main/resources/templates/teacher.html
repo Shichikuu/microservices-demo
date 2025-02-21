@@ -19,7 +19,6 @@
 
 <section class="content" layout:fragment="body-content-main">
 
-    <div class="container mb-5">
         <a class="btn btn-success mb-3" th:href="@{/teachers/new}">Add New Teacher</a>
         <div class="box-tools">
             <form th:action="@{/teachers}" method="get">
@@ -58,9 +57,9 @@
             </table>
             <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
             <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
-            <div th:if="${not #lists.isEmpty(teachers.content)}" class="d-flex justify-content-center">
+            <div th:if="${not #lists.isEmpty(teachers.content)}" class="d-flex">
                 <div class="d-flex flex-column">
-                    <div sd:pagination-summary="" class="d-flex justify-content-center">info</div>
+                    <div sd:pagination-summary="" class="d-flex">info</div>
                     <div class="text-center d-flex">
                         <nav>
                             <ul class="pagination" sd:pagination="full">
@@ -73,7 +72,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
 </section>
 

@@ -36,8 +36,8 @@
     <table class="table table-bordered table-hover">
       <thead>
       <tr>
-        <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="id">Course Code</a></th>
-        <th scope="col"><a class="fa fa-fw fa-sort"></a><a class="sorted" sd:pagination-sort="name">Course Name</a></th>
+        <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="id">Course Code</a></th>
+        <th scope="col"><a class="fa fa-fw fa-sort text-decoration-none"></a><a class="sorted text-decoration-none" sd:pagination-sort="name">Course Name</a></th>
         <th>Actions</th>
       </tr>
       </thead>
@@ -46,9 +46,9 @@
         <td th:text="${course.id}"></td>
         <td th:text="${course.name}"></td>
         <td>
-<!--          <a class="btn btn-danger btn-sm" th:href="@{/learning/courses/delete(courseId=${course.id})}"-->
-<!--             onclick="return confirm('Are you sure you want to delete this course?');">Delete</a>-->
-          <a class="btn btn-success btn-sm" th:href="@{/learning/courses/view(studentId=${course.id})}">View Details</a>
+          <a class="btn btn-danger btn-sm" th:href="@{/learning/courses/delete(courseId=${course.id})}"
+             onclick="return confirm('Are you sure you want to delete this course?');">Delete</a>
+<!--          <a class="btn btn-success btn-sm" th:href="@{/learning/courses/view(studentId=${course.id})}">View Details</a>-->
         </td>
       </tr>
       </tbody>

@@ -19,7 +19,6 @@
 
 <section class="content" layout:fragment="body-content-main">
 
-  <div class="container mb-5">
     <form th:action="@{/students/update-student-data}" th:object="${student}" method="post">
       <input type="hidden" th:field="*{id}"/>
       <input th:if="*{school} != null" type="hidden" th:field="*{school.id}"/>
@@ -41,7 +40,7 @@
       <div class="d-flex justify-content-between mb-3">
         <form class="align-middle" th:action="@{/students/view(studentId=${student.id})}" method="get">
           <input type="hidden" name="studentId" th:value="${student.id}" />
-          <div class="input-group input-group-sm" style="width: 59vw;">
+          <div class="input-group input-group-sm" style="width: 25vw;">
             <input type="text" name="value" class="form-control pull-right"
                    placeholder="Search" th:if="${key} == null"/>
             <input type="text" name="value" class="form-control pull-right"
@@ -73,7 +72,6 @@
       </table>
       <a class="btn btn-secondary mt-3" th:href="@{/students}">Back to List</a>
     </div>
-  </div>
 
 
 

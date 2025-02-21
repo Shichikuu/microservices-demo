@@ -18,8 +18,6 @@
 </section>
 
 <section class="content" layout:fragment="body-content-main">
-
-  <div class="container mb-5">
     <div class="box-tools">
       <form th:action="@{/schools/{id}/insert-teacher(id=${schoolId})}" method="get">
         <div class="input-group input-group-sm mb-3" style="width: 250px;">
@@ -59,9 +57,9 @@
       </table>
       <div th:if="${error}" th:text="${error}" class="text-danger mt-2"></div>
       <div th:if="${success}" th:text="${success}" class="text-success mt-2"></div>
-      <div th:if="${not #lists.isEmpty(teachers.content)}" class="d-flex justify-content-center">
+      <div th:if="${not #lists.isEmpty(teachers.content)}" class="d-flex">
         <div class="d-flex flex-column">
-          <div sd:pagination-summary="" class="d-flex justify-content-center">info</div>
+          <div sd:pagination-summary="" class="d-flex">info</div>
           <div class="text-center d-flex">
             <nav>
               <ul class="pagination" sd:pagination="full">
@@ -75,7 +73,6 @@
       </div>
       <a class="btn btn-secondary mt-3" th:href="@{/schools/view/{id}(id=${schoolId})}">Back to List</a>
     </div>
-  </div>
 
 </section>
 
